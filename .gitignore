@@ -1,0 +1,6 @@
+raw_data/
+libcity/cache/
+**/__pycache__/
+*.dyna
+*.npz
+*.pth
