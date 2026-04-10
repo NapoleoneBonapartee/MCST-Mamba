@@ -156,7 +156,21 @@ class TrafficStateExecutor(AbstractExecutor):
         checkpoint = torch.load(model_path, map_location='cpu')
 
         # 加载模型和优化器
-        self.model.load_state_dict(checkpoint['model_state_dict'])
+        try:
+            self.model.load_state_dict(checkpoint['model_state_dict'])
+        except RuntimeError as e:
+            # 处理 _orig_mod. 前缀问题（通常由 torch.compile() 导致）
+            state_dict = checkpoint['model_state_dict']
+            new_state_dict = {}
+            for k, v in state_dict.items():
+                # 去除 _orig_mod. 前缀
+                if k.startswith('_orig_mod.'):
+                    new_key = k[10:]  # len('_orig_mod.') == 10
+                else:
+                    new_key = k
+                new_state_dict[new_key] = v
+            self.model.load_state_dict(new_state_dict)
+            self._logger.info("已自动转换带 _orig_mod. 前缀的 state_dict")
         self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
 
         # 恢复学习率
