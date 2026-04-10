@@ -19,15 +19,30 @@ def apply_optimizations():
     # Import original modules
     from libcity import data
     from libcity.data import utils as data_utils
+    from libcity.executor import traffic_state_executor
     
     # Import optimized modules
     from libcity.data import utils_optimized
+    from libcity.executor.traffic_state_executor_optimized import TrafficStateExecutorOptimized
     
     # Monkey-patch the data utils
     data_utils.generate_dataloader = utils_optimized.generate_dataloader
     data_utils.generate_dataloader_pad = utils_optimized.generate_dataloader_pad
     
-    print("[优化] 已启用优化的 DataLoader (移除 deepcopy, 启用 persistent_workers, prefetch)")
+    # Monkey-patch the executor
+    import libcity.utils.utils as utils_module
+    original_get_executor = utils_module.get_executor
+    
+    def patched_get_executor(config, model, data_feature):
+        """Return optimized executor when TrafficStateExecutor is requested"""
+        executor_name = config.get('executor', 'TrafficStateExecutor')
+        if executor_name == 'TrafficStateExecutor':
+            return TrafficStateExecutorOptimized(config, model, data_feature)
+        return original_get_executor(config, model, data_feature)
+    
+    utils_module.get_executor = patched_get_executor
+    
+    print("[优化] 已启用优化的 DataLoader 和 Executor (FP16, 梯度累积, 移除 deepcopy)")
 
 
 if __name__ == '__main__':
