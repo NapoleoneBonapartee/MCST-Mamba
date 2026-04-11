@@ -103,6 +103,7 @@
     },
     "traffic_state_pred": {
         "allowed_model": [
+            "MCSTWeather",
             "MCSTMamba_optimized",
             "DCRNN",
             "STGCN",
@@ -614,6 +615,11 @@
             "evaluator": "TrafficStateEvaluator"
         },
         "MCSTMamba_optimized":{
+            "dataset_class": "TrafficStatePointDataset",
+            "executor": "TrafficStateExecutorOptimized",
+            "evaluator": "TrafficStateEvaluator"
+        },
+        "MCSTWeather":{
             "dataset_class": "TrafficStatePointDataset",
             "executor": "TrafficStateExecutorOptimized",
             "evaluator": "TrafficStateEvaluator"
