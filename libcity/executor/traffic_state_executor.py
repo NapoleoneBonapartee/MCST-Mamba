@@ -479,13 +479,16 @@ class TrafficStateExecutor(AbstractExecutor):
         """
         self._logger.info('Start training ...')
         
-        min_val_loss = float('inf')
-        # wait = 0
-        # best_epoch = 0
-
-        # 修改：使用实例变量而非局部变量，以便在保存checkpoint时访问
+        # 修改：使用实例变量而非局部变量，以便在保存checkpoint时访问和恢复
+        # 如果是resume加载的模型，会恢复之前保存的best_epoch和min_val_loss
         self.wait = getattr(self, 'wait', 0)
         self.best_epoch = getattr(self, 'best_epoch', 0)
+        self.min_val_loss = getattr(self, 'min_val_loss', float('inf'))
+        
+        # 记录加载时的恢复状态（如果是resume）
+        if self._epoch_num > 0:
+            self._logger.info(f'Resumed from epoch {self._epoch_num}, '
+                              f'best_epoch={self.best_epoch}, min_val_loss={self.min_val_loss:.4f}')
 
         train_time = []
         eval_time = []
@@ -526,17 +529,24 @@ class TrafficStateExecutor(AbstractExecutor):
                 # ray tune use loss to determine which params are best
                 tune.report(loss=val_loss)
 
-            if val_loss < min_val_loss:
-                wait = 0
+            if val_loss < self.min_val_loss:
+                self.wait = 0
                 if self.saved:
+                    # 先记录旧的min_val_loss用于日志打印
+                    old_min_val_loss = self.min_val_loss
+                    # 更新best_epoch和min_val_loss后再保存，确保checkpoint包含正确的状态
+                    self.best_epoch = epoch_idx
+                    self.min_val_loss = val_loss
                     model_file_name = self.save_model_with_epoch(epoch_idx)
                     self._logger.info('Val loss decrease from {:.4f} to {:.4f}, '
-                                      'saving to {}'.format(min_val_loss, val_loss, model_file_name))
-                min_val_loss = val_loss
-                best_epoch = epoch_idx
+                                      'saving to {}'.format(old_min_val_loss, val_loss, model_file_name))
+                else:
+                    # 即使不保存模型，也要更新最佳记录
+                    self.best_epoch = epoch_idx
+                    self.min_val_loss = val_loss
             else:
-                wait += 1
-                if wait == self.patience and self.use_early_stop:
+                self.wait += 1
+                if self.wait == self.patience and self.use_early_stop:
                     self._logger.warning('Early stopping at epoch: %d' % epoch_idx)
                     break
         if len(train_time) > 0:
@@ -544,9 +554,23 @@ class TrafficStateExecutor(AbstractExecutor):
                               'average eval time is {:.3f}s'.
                               format(len(train_time), sum(train_time) / len(train_time),
                                      sum(eval_time) / len(eval_time)))
+        
+        # 训练结束日志：记录最佳epoch和对应的验证损失
+        if self.best_epoch >= 0:
+            self._logger.info('Training ended. Best epoch: {}, min val loss: {:.4f}'.
+                              format(self.best_epoch, self.min_val_loss))
+        
         if self.load_best_epoch:
-            self.load_model_with_epoch(best_epoch)
-        return min_val_loss
+            # 检查最佳epoch的模型文件是否存在
+            best_model_path = self.cache_dir + '/' + self.config['model'] + '_' + self.config['dataset'] + '_epoch%d.tar' % self.best_epoch
+            if os.path.exists(best_model_path):
+                self.load_model_with_epoch(self.best_epoch)
+            else:
+                self._logger.warning(
+                    'Best epoch {} model file not found at: {}. '
+                    'Current model state remains loaded.'.format(self.best_epoch, best_model_path)
+                )
+        return self.min_val_loss
 
     def _train_epoch(self, train_dataloader, epoch_idx, loss_func=None):
         """

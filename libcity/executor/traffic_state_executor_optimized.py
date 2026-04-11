@@ -68,7 +68,7 @@ class TrafficStateExecutorOptimized(TrafficStateExecutor):
         if data_type == 'valid' and self.gpu_valid_data is not None:
             return
             
-        self._logger.info(f"PEMSD4 数据集较小，正在预加载 {data_type} 数据到 GPU 显存...")
+        self._logger.info(f"数据集较小，正在预加载 {data_type} 数据到 GPU 显存...")
         start_time = time.time()
         
         gpu_data = []
