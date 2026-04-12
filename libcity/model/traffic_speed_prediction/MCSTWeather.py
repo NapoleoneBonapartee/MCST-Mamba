@@ -302,6 +302,9 @@ class MCSTWeather(AbstractTrafficStateModel):
         # 组合权重
         self.combine_weights = nn.Parameter(torch.randn(2, self.d_model))
         
+        # 时序投影：将 input_window 映射到 output_window
+        self.temporal_proj = nn.Linear(self.input_window, self.output_window)
+        
         # 输出投影
         self.output_proj = nn.Linear(self.d_model, self.output_dim)
         
@@ -414,7 +417,11 @@ class MCSTWeather(AbstractTrafficStateModel):
         
         # 获取时间戳（如果有）- Batch对象使用.data字典访问
         timestamps = batch.data.get('timestamps', None)
-        
+        if(timestamps is None):
+            self._logger.info('MCSTWeather, timestamps is None.')
+        else:
+            self._logger.info('MCSTWeather, timestamps is not None.')
+            
         # 特征提取
         features = []
         
@@ -477,10 +484,16 @@ class MCSTWeather(AbstractTrafficStateModel):
         x_combined = x_temporal * self.combine_weights[0] + x_spatial * self.combine_weights[1]
         
         # 最终处理和输出投影
-        x_out = self.final_layer_norm(x_combined)
-        x_out = self.output_proj(x_out)
+        x_out = self.final_layer_norm(x_combined)  # (B, input_window, N, d_model)
+        x_out = self.output_proj(x_out)  # (B, input_window, N, output_dim)
         
-        return x_out[:, -self.output_window:]  # 返回最后 output_window 步
+        # 时序投影：将 input_window 映射到 output_window
+        # 转置为 (B, N, output_dim, input_window) -> 投影 -> 转置回 (B, output_window, N, output_dim)
+        x_out = x_out.permute(0, 2, 3, 1)  # (B, N, output_dim, input_window)
+        x_out = self.temporal_proj(x_out)  # (B, N, output_dim, output_window)
+        x_out = x_out.permute(0, 3, 1, 2)  # (B, output_window, N, output_dim)
+        
+        return x_out  # 直接预测未来 output_window 步
     
     def calculate_loss(self, batch):
         """计算训练损失"""
@@ -497,5 +510,11 @@ class MCSTWeather(AbstractTrafficStateModel):
         return loss.masked_mae_torch(y_predicted, y_true, 0)
     
     def predict(self, batch):
-        """预测"""
-        return self.forward(batch)
+        """
+        直接预测未来 output_window 步
+        Args:
+            batch: 包含 'X' 的 Batch 对象
+        Returns:
+            预测结果: (batch_size, output_window, num_nodes, output_dim)
+        """
+        return self.forward(batch)  # forward 直接输出未来预测

@@ -611,7 +611,7 @@
         },
         "MCSTMamba": {
             "dataset_class": "TrafficStatePointDataset",
-            "executor": "TrafficStateExecutor",
+            "executor": "TrafficStateExecutorOptimized",
             "evaluator": "TrafficStateEvaluator"
         },
         "MCSTMamba_optimized":{
