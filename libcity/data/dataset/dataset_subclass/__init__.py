@@ -33,6 +33,7 @@ from libcity.data.dataset.dataset_subclass.staeformer_dataset import STAEformerD
 from libcity.data.dataset.dataset_subclass.simst_dataset import SimSTDataset
 from libcity.data.dataset.dataset_subclass.stwave_dataset import STWaveDataset
 from libcity.data.dataset.dataset_subclass.pdformer_dataset import PDFormerDataset
+from libcity.data.dataset.dataset_subclass.mcst_weather_dataset import MCSTWeatherDataset
 
 __all__ = [
     "ACFMDataset",

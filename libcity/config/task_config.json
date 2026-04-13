@@ -620,7 +620,7 @@
             "evaluator": "TrafficStateEvaluator"
         },
         "MCSTWeather":{
-            "dataset_class": "TrafficStatePointDataset",
+            "dataset_class": "MCSTWeatherDataset",
             "executor": "TrafficStateExecutorOptimized",
             "evaluator": "TrafficStateEvaluator"
         }

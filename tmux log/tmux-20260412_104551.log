@@ -1688,4 +1688,1277 @@ KeyboardInterrupt
 KeyboardInterrupt
 
 [?2004h(mcst) root@gpu-kvm:~/MCST-Mamba# 
-[?2004l[?2004h(mcst) root@gpu-kvm:~/MCST-Mamba# 
+[?2004l[?2004h(mcst) root@gpu-kvm:~/MCST-Mamba# [3mpython run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_LA --exp_id W001[23m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpython run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_LA --exp_id W001
+[?2004l2026-04-12 18:14:07,450 - INFO - Log directory: ./libcity/log
+2026-04-12 18:14:07,451 - INFO - Begin pipeline, task=traffic_state_pred, model_name=MCSTWeather, dataset_name=METR_LA, exp_id=W001, epoch=0
+2026-04-12 18:14:07,451 - INFO - {'task': 'traffic_state_pred', 'model': 'MCSTWeather', 'dataset': 'METR_LA', 'saved_model': True, 'train': True, 'exp_id': 'W001', 'seed': 0, 'dataset_class': 'TrafficStatePointDataset', 'executor': 'TrafficStateExecutorOptimized', 'evaluator': 'TrafficStateEvaluator', 'input_window': 12, 'output_window': 12, 'input_embedding_dim': 24, 'tod_embedding_dim': 24, 'dow_embedding_dim': 24, 'spatial_embedding_dim': 16, 'adaptive_embedding_dim': 80, 'd_model': 96, 'd_state': 32, 'd_conv': 4, 'expand': 2, 'dropout': 0.1, 'weather_embed_dim': 64, 'use_weather': True, 'weather_file': None, 'add_time_in_day': True, 'add_day_in_week': True, 'steps_per_day': 288, 'max_epoch': 300, 'batch_size': 128, 'learning_rate': 0.001, 'optimizer': 'adam', 'lr_decay': True, 'lr_scheduler': 'cosineannealinglr', 'patience': 30, 'use_early_stop': True, 'scaler': 'standard', 'load_external': True, 'normal_external': False, 'ext_scaler': 'none', 'cache_dataset': True, 'num_workers': 0, 'pad_with_last_sample': True, 'train_rate': 0.7, 'eval_rate': 0.1, 'robustness_test': False, 'noise_type': 'gaussian', 'disturb_rate': 0.5, 'noise_mean': [5], 'noise_SD': [10], 'gpu': True, 'gpu_id': 0, 'train_loss': 'none', 'epoch': 0, 'learner': 'adam', 'weight_decay': 0.0001, 'lr_epsilon': 1e-08, 'lr_beta1': 0.9, 'lr_beta2': 0.999, 'lr_alpha': 0.99, 'lr_momentum': 0, 'lr_decay_ratio': 0.1, 'steps': [10, 30, 50, 80], 'step_size': 10, 'lr_T_max': 30, 'lr_eta_min': 0, 'lr_patience': 5, 'lr_threshold': 0.0001, 'clip_grad_norm': True, 'max_grad_norm': 5.0, 'log_level': 'INFO', 'log_every': 1, 'load_best_epoch': True, 'hyper_tune': False, 'fp16': True, 'gradient_accumulation_steps': 2, 'metrics': ['MAE', 'MAPE', 'MSE', 'RMSE', 'masked_MAE', 'masked_MAPE', 'masked_MSE', 'masked_RMSE', 'R2', 'EVAR'], 'evaluator_mode': 'single', 'save_mode': ['csv'], 'geo': {'including_types': ['Point'], 'Point': {}}, 'rel': {'including_types': ['geo'], 'geo': {'cost': 'num'}}, 'dyna': {'including_types': ['state'], 'state': {'entity_id': 'geo_id', 'traffic_speed': 'num'}}, 'data_col': ['traffic_speed'], 'weight_col': 'cost', 'data_files': ['METR_LA'], 'geo_file': 'METR_LA', 'rel_file': 'METR_LA', 'output_dim': 1, 'time_intervals': 300, 'init_weight_inf_or_zero': 'inf', 'set_weight_link_or_dist': 'dist', 'calculate_weight_adj': True, 'weight_adj_epsilon': 0.1, 'device': device(type='cuda', index=0)}
+2026-04-12 18:14:07,781 - INFO - Loaded file METR_LA.geo, num_nodes=207
+2026-04-12 18:14:07,787 - INFO - set_weight_link_or_dist: dist
+2026-04-12 18:14:07,787 - INFO - init_weight_inf_or_zero: inf
+2026-04-12 18:14:07,802 - INFO - Loaded file METR_LA.rel, shape=(207, 207)
+2026-04-12 18:14:07,802 - INFO - Start Calculate the weight by Gauss kernel!
+2026-04-12 18:14:07,802 - INFO - Loading file METR_LA.dyna
+2026-04-12 18:14:11,803 - INFO - Loaded file METR_LA.dyna, shape=(34272, 207, 1)
+2026-04-12 18:14:23,545 - INFO - Dataset created
+2026-04-12 18:14:23,545 - INFO - x shape: (34249, 12, 207, 9), y shape: (34249, 12, 207, 9)
+2026-04-12 18:14:23,573 - INFO - train	x: (23974, 12, 207, 9), y: (23974, 12, 207, 9)
+2026-04-12 18:14:23,573 - INFO - eval	x: (3425, 12, 207, 9), y: (3425, 12, 207, 9)
+2026-04-12 18:14:23,573 - INFO - test	x: (6850, 12, 207, 9), y: (6850, 12, 207, 9)
+2026-04-12 18:15:59,812 - INFO - Saved at ./libcity/cache/dataset_cache/point_based_METR_LA_12_12_0.7_0.1_standard_128_True_True_True_True.npz
+2026-04-12 18:16:00,759 - INFO - StandardScaler mean: 54.40592829587626, std: 19.493739270573094
+2026-04-12 18:16:00,760 - INFO - NoneScaler
+/root/MCST-Mamba/libcity/model/traffic_speed_prediction/MCSTWeather.py:47: FutureWarning: Series.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  self.weather_df[col] = self.weather_df[col].fillna(method='ffill')
+/root/MCST-Mamba/libcity/model/traffic_speed_prediction/MCSTWeather.py:49: FutureWarning: Series.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  self.weather_df[col] = self.weather_df[col].fillna(method='bfill')
+2026-04-12 18:16:11,527 - INFO - Weather data loaded from ./raw_data/METR_LA/weather.csv
+2026-04-12 18:16:11,527 - INFO - Weather features: ['temp_range', 'temp_avg', 'apparent_temp_diff', 'humidity_level', 'humidity_change', 'humidity_range', 'wind_gust_ratio', 'wind_avg', 'wind_speed', 'pressure_diff', 'pressure_change', 'pressure_level', 'has_precipitation', 'precipitation_level', 'wind_dir_sin', 'wind_dir_cos', 'weather_phenomena_count', 'has_severe_weather', 'hour', 'hour_sin', 'hour_cos']
+2026-04-12 18:16:11,527 - INFO - Building MCSTWeather model with weather integration
+2026-04-12 18:16:11,653 - INFO - MCSTWeather model initialized with weather_embed_dim=64
+2026-04-12 18:16:12,164 - INFO - MCSTWeather(
+  (input_proj): Linear(in_features=9, out_features=24, bias=True)
+  (tod_embedding): Embedding(288, 24)
+  (dow_embedding): Embedding(7, 24)
+  (mamba_input_proj): Linear(in_features=168, out_features=96, bias=True)
+  (weather_feature_proj): Sequential(
+    (0): Linear(in_features=21, out_features=128, bias=True)
+    (1): ReLU()
+    (2): Dropout(p=0.1, inplace=False)
+    (3): Linear(in_features=128, out_features=64, bias=True)
+  )
+  (weather_spatial_expand): Linear(in_features=64, out_features=64, bias=True)
+  (temporal_block): SimpleMambaWeatherBlock(
+    (layer_norm): LayerNorm((96,), eps=1e-05, elementwise_affine=True)
+    (mamba_weather): MambaWeather(
+      (in_proj): Linear(in_features=96, out_features=384, bias=False)
+      (conv1d): Conv1d(192, 192, kernel_size=(4,), stride=(1,), padding=(3,), groups=192)
+      (act): SiLU()
+      (x_proj): Linear(in_features=256, out_features=70, bias=False)
+      (dt_proj): Linear(in_features=6, out_features=192, bias=True)
+      (out_proj): Linear(in_features=192, out_features=96, bias=False)
+      (weather_proj): Linear(in_features=64, out_features=64, bias=True)
+    )
+    (dropout): Dropout(p=0.1, inplace=False)
+    (feed_forward): Sequential(
+      (0): Linear(in_features=96, out_features=384, bias=True)
+      (1): GELU(approximate='none')
+      (2): Dropout(p=0.1, inplace=False)
+      (3): Linear(in_features=384, out_features=96, bias=True)
+    )
+    (ff_norm): LayerNorm((96,), eps=1e-05, elementwise_affine=True)
+    (ff_dropout): Dropout(p=0.1, inplace=False)
+  )
+  (spatial_block): SimpleMambaWeatherBlock(
+    (layer_norm): LayerNorm((96,), eps=1e-05, elementwise_affine=True)
+    (mamba_weather): MambaWeather(
+      (in_proj): Linear(in_features=96, out_features=384, bias=False)
+      (conv1d): Conv1d(192, 192, kernel_size=(4,), stride=(1,), padding=(3,), groups=192)
+      (act): SiLU()
+      (x_proj): Linear(in_features=256, out_features=70, bias=False)
+      (dt_proj): Linear(in_features=6, out_features=192, bias=True)
+      (out_proj): Linear(in_features=192, out_features=96, bias=False)
+      (weather_proj): Linear(in_features=64, out_features=64, bias=True)
+    )
+    (dropout): Dropout(p=0.1, inplace=False)
+    (feed_forward): Sequential(
+      (0): Linear(in_features=96, out_features=384, bias=True)
+      (1): GELU(approximate='none')
+      (2): Dropout(p=0.1, inplace=False)
+      (3): Linear(in_features=384, out_features=96, bias=True)
+    )
+    (ff_norm): LayerNorm((96,), eps=1e-05, elementwise_affine=True)
+    (ff_dropout): Dropout(p=0.1, inplace=False)
+  )
+  (temporal_proj): Linear(in_features=12, out_features=12, bias=True)
+  (output_proj): Linear(in_features=96, out_features=1, bias=True)
+  (final_layer_norm): LayerNorm((96,), eps=1e-05, elementwise_affine=True)
+)
+2026-04-12 18:16:12,165 - INFO - spatial_embedding	torch.Size([207, 16])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - adaptive_embedding	torch.Size([12, 207, 80])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - combine_weights	torch.Size([2, 96])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - input_proj.weight	torch.Size([24, 9])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - input_proj.bias	torch.Size([24])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - tod_embedding.weight	torch.Size([288, 24])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - dow_embedding.weight	torch.Size([7, 24])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - mamba_input_proj.weight	torch.Size([96, 168])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - mamba_input_proj.bias	torch.Size([96])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - weather_feature_proj.0.weight	torch.Size([128, 21])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - weather_feature_proj.0.bias	torch.Size([128])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - weather_feature_proj.3.weight	torch.Size([64, 128])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - weather_feature_proj.3.bias	torch.Size([64])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - weather_spatial_expand.weight	torch.Size([64, 64])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - weather_spatial_expand.bias	torch.Size([64])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - temporal_block.layer_norm.weight	torch.Size([96])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - temporal_block.layer_norm.bias	torch.Size([96])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - temporal_block.mamba_weather.A_log	torch.Size([192, 32])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - temporal_block.mamba_weather.D	torch.Size([192])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - temporal_block.mamba_weather.in_proj.weight	torch.Size([384, 96])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - temporal_block.mamba_weather.conv1d.weight	torch.Size([192, 1, 4])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - temporal_block.mamba_weather.conv1d.bias	torch.Size([192])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - temporal_block.mamba_weather.x_proj.weight	torch.Size([70, 256])	cuda:0	True
+2026-04-12 18:16:12,165 - INFO - temporal_block.mamba_weather.dt_proj.weight	torch.Size([192, 6])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - temporal_block.mamba_weather.dt_proj.bias	torch.Size([192])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - temporal_block.mamba_weather.out_proj.weight	torch.Size([96, 192])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - temporal_block.mamba_weather.weather_proj.weight	torch.Size([64, 64])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - temporal_block.mamba_weather.weather_proj.bias	torch.Size([64])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - temporal_block.feed_forward.0.weight	torch.Size([384, 96])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - temporal_block.feed_forward.0.bias	torch.Size([384])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - temporal_block.feed_forward.3.weight	torch.Size([96, 384])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - temporal_block.feed_forward.3.bias	torch.Size([96])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - temporal_block.ff_norm.weight	torch.Size([96])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - temporal_block.ff_norm.bias	torch.Size([96])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - spatial_block.layer_norm.weight	torch.Size([96])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - spatial_block.layer_norm.bias	torch.Size([96])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - spatial_block.mamba_weather.A_log	torch.Size([192, 32])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - spatial_block.mamba_weather.D	torch.Size([192])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - spatial_block.mamba_weather.in_proj.weight	torch.Size([384, 96])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - spatial_block.mamba_weather.conv1d.weight	torch.Size([192, 1, 4])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - spatial_block.mamba_weather.conv1d.bias	torch.Size([192])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - spatial_block.mamba_weather.x_proj.weight	torch.Size([70, 256])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - spatial_block.mamba_weather.dt_proj.weight	torch.Size([192, 6])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - spatial_block.mamba_weather.dt_proj.bias	torch.Size([192])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - spatial_block.mamba_weather.out_proj.weight	torch.Size([96, 192])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - spatial_block.mamba_weather.weather_proj.weight	torch.Size([64, 64])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - spatial_block.mamba_weather.weather_proj.bias	torch.Size([64])	cuda:0	True
+2026-04-12 18:16:12,166 - INFO - spatial_block.feed_forward.0.weight	torch.Size([384, 96])	cuda:0	True
+2026-04-12 18:16:12,167 - INFO - spatial_block.feed_forward.0.bias	torch.Size([384])	cuda:0	True
+2026-04-12 18:16:12,167 - INFO - spatial_block.feed_forward.3.weight	torch.Size([96, 384])	cuda:0	True
+2026-04-12 18:16:12,167 - INFO - spatial_block.feed_forward.3.bias	torch.Size([96])	cuda:0	True
+2026-04-12 18:16:12,167 - INFO - spatial_block.ff_norm.weight	torch.Size([96])	cuda:0	True
+2026-04-12 18:16:12,167 - INFO - spatial_block.ff_norm.bias	torch.Size([96])	cuda:0	True
+2026-04-12 18:16:12,167 - INFO - temporal_proj.weight	torch.Size([12, 12])	cuda:0	True
+2026-04-12 18:16:12,167 - INFO - temporal_proj.bias	torch.Size([12])	cuda:0	True
+2026-04-12 18:16:12,167 - INFO - output_proj.weight	torch.Size([1, 96])	cuda:0	True
+2026-04-12 18:16:12,167 - INFO - output_proj.bias	torch.Size([1])	cuda:0	True
+2026-04-12 18:16:12,167 - INFO - final_layer_norm.weight	torch.Size([96])	cuda:0	True
+2026-04-12 18:16:12,167 - INFO - final_layer_norm.bias	torch.Size([96])	cuda:0	True
+2026-04-12 18:16:12,167 - INFO - Total parameter numbers: 562661
+2026-04-12 18:16:12,167 - INFO - You select `adam` optimizer.
+2026-04-12 18:16:12,167 - INFO - You select `cosineannealinglr` lr_scheduler.
+2026-04-12 18:16:12,167 - WARNING - Received none train loss func and will use the loss func defined in the model.
+2026-04-12 18:16:12,168 - INFO - Gradient accumulation steps: 2
+2026-04-12 18:16:12,168 - INFO - FP16 mixed precision training: True
+2026-04-12 18:16:12,168 - INFO - Using torch.cuda.amp.GradScaler for FP16 training
+2026-04-12 18:16:12,168 - INFO - Enabled cuDNN benchmark mode
+2026-04-12 18:16:12,168 - INFO - Enabled TF32 for faster training on Ampere GPUs
+2026-04-12 18:16:12,168 - INFO - Executor 已初始化 GPU 数据预加载功能（PEMSD4 专用）
+2026-04-12 18:16:12,168 - INFO - Start training ...
+2026-04-12 18:16:12,168 - INFO - num_batches:188
+2026-04-12 18:16:12,168 - INFO - 数据集较小，正在预加载 train 数据到 GPU 显存...
+2026-04-12 18:16:22,007 - INFO -   已预加载 10 batches...
+2026-04-12 18:16:31,869 - INFO -   已预加载 20 batches...
+2026-04-12 18:16:41,855 - INFO -   已预加载 30 batches...
+2026-04-12 18:16:51,874 - INFO -   已预加载 40 batches...
+2026-04-12 18:17:01,987 - INFO -   已预加载 50 batches...
+2026-04-12 18:17:11,955 - INFO -   已预加载 60 batches...
+2026-04-12 18:17:21,805 - INFO -   已预加载 70 batches...
+2026-04-12 18:17:31,646 - INFO -   已预加载 80 batches...
+2026-04-12 18:17:41,505 - INFO -   已预加载 90 batches...
+2026-04-12 18:17:51,316 - INFO -   已预加载 100 batches...
+2026-04-12 18:18:01,096 - INFO -   已预加载 110 batches...
+2026-04-12 18:18:10,886 - INFO -   已预加载 120 batches...
+2026-04-12 18:18:20,642 - INFO -   已预加载 130 batches...
+2026-04-12 18:18:30,453 - INFO -   已预加载 140 batches...
+2026-04-12 18:18:40,229 - INFO -   已预加载 150 batches...
+2026-04-12 18:18:49,970 - INFO -   已预加载 160 batches...
+2026-04-12 18:18:59,666 - INFO -   已预加载 170 batches...
+2026-04-12 18:19:09,522 - INFO -   已预加载 180 batches...
+2026-04-12 18:19:17,436 - INFO - 预加载完成: 188 batches (185.27s)
+2026-04-12 18:19:17,436 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:22,553 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:22,728 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:22,886 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:23,046 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:23,203 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:23,380 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:23,538 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:23,697 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:23,855 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:24,017 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:24,174 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:24,336 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:24,493 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:24,655 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:24,813 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:24,975 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:25,132 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:25,294 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:25,452 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:25,613 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:25,771 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:25,933 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:26,091 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:26,252 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:26,410 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:26,572 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:26,730 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:26,891 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:27,049 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:27,210 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:27,368 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:27,529 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:27,687 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:27,849 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:28,007 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:28,168 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:28,326 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:28,487 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:28,645 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:28,806 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:28,964 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:29,125 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:29,283 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:29,445 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:29,603 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:29,765 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:29,922 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:30,084 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:30,243 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:30,405 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:30,563 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:30,724 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:30,882 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:31,044 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:31,202 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:31,364 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:31,522 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:31,684 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:31,842 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:32,004 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:32,162 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:32,324 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:32,482 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:32,644 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:32,802 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:32,964 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:33,122 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:33,284 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:33,442 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:33,604 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:33,762 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:33,924 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:34,081 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:34,244 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:34,402 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:34,564 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:34,722 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:34,884 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:35,042 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:35,204 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:35,362 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:35,523 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:35,681 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:35,843 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:36,001 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:36,163 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:36,321 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:36,483 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:36,641 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:36,803 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:36,961 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:37,122 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:37,280 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:37,442 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:37,600 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:37,762 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:37,921 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:38,082 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:38,240 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:38,402 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:38,560 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:38,721 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:38,879 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:39,040 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:39,198 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:39,360 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:39,517 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:39,679 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:39,837 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:39,999 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:40,157 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:40,318 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:40,475 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:40,637 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:40,795 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:40,956 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:41,114 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:41,276 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:41,434 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:41,595 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:41,753 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:41,915 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:42,073 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:42,234 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:42,392 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:42,554 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:42,713 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:42,874 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:43,032 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:43,193 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:43,351 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:43,513 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:43,671 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:43,832 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:43,990 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:44,151 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:44,309 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:44,471 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:44,629 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:44,791 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:44,949 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:45,111 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:45,269 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:45,431 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:45,589 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:45,751 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:45,909 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:46,071 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:46,229 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:46,391 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:46,549 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:46,713 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:46,872 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:47,035 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:47,194 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:47,358 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:47,517 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:47,680 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:47,838 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:48,000 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:48,158 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:48,319 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:48,477 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:48,639 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:48,797 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:48,959 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:49,117 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:49,278 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:49,436 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:49,598 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:49,756 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:49,918 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:50,076 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:50,237 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:50,395 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:50,557 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:50,715 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:50,876 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:51,035 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:51,196 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:51,354 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:51,516 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:51,674 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:51,837 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:51,995 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:52,156 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:52,314 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:19:52,476 - INFO - epoch complete!
+2026-04-12 18:19:52,477 - INFO - evaluating now!
+2026-04-12 18:19:52,477 - INFO - 数据集较小，正在预加载 valid 数据到 GPU 显存...
+2026-04-12 18:20:02,637 - INFO -   已预加载 10 batches...
+2026-04-12 18:20:12,457 - INFO -   已预加载 20 batches...
+2026-04-12 18:20:19,298 - INFO - 预加载完成: 27 batches (26.82s)
+2026-04-12 18:20:19,298 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,327 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,355 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,383 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,411 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,440 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,468 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,496 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,525 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,553 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,581 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,609 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,637 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,665 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,693 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,720 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,748 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,776 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,804 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,831 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,859 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,886 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,914 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,941 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,968 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:19,995 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:20,022 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:20,050 - INFO - Epoch [0/300] train_loss: 6.7564, val_loss: 4.7209, lr: 0.000997, 247.88s
+2026-04-12 18:20:20,068 - INFO - Saved model at 0
+2026-04-12 18:20:20,069 - INFO - Val loss decrease from inf to 4.7209, saving to ./libcity/cache/W001/model_cache/MCSTWeather_METR_LA_epoch0.tar
+2026-04-12 18:20:20,069 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:20,226 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:20,386 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:20,544 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:20,704 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:20,862 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:21,022 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:21,180 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:21,340 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:21,498 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:21,658 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:21,816 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:21,976 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:22,134 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:22,294 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:22,452 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:22,612 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:22,770 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:22,930 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:23,088 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:23,248 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:23,406 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:23,566 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:23,724 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:23,884 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:24,041 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:24,202 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:24,359 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:24,520 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:24,678 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:24,838 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:24,996 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:25,156 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:25,315 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:25,475 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:25,633 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:25,793 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:25,950 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:26,111 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:26,268 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:26,429 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:26,586 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:26,747 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:26,904 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:27,065 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:27,222 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:27,384 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:27,543 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:27,703 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:27,861 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:28,146 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:28,304 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:28,464 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:28,622 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:28,782 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:28,940 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:29,100 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:29,258 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:29,418 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:29,576 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:29,736 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:29,893 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:30,054 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:30,211 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:30,372 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:30,530 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:30,690 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:30,848 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:31,008 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:31,166 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:31,326 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:31,483 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:31,643 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:31,801 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:31,962 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:32,119 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:32,279 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:32,437 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:32,597 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:32,755 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:32,917 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:33,075 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:33,236 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:33,393 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:33,554 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:33,712 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:33,873 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:34,031 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:34,192 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:34,350 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:34,511 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:34,669 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:34,829 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:34,987 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:35,147 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:35,305 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:35,465 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:35,623 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:35,783 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:35,940 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:36,101 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:36,258 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:36,418 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:36,576 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:36,736 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:36,894 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:37,055 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:37,212 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:37,372 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:37,530 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:37,690 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:37,848 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:38,008 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:38,166 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:38,326 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:38,483 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:38,644 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:38,802 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:38,962 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:39,120 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:39,280 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:39,437 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:39,598 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:39,755 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:39,915 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:40,073 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:40,233 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:40,390 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:40,551 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:40,708 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:40,868 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:41,025 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:41,186 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:41,343 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:41,503 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:41,661 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:41,821 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:41,979 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:42,139 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:42,296 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:42,456 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:42,614 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:42,774 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:42,932 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:43,092 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:43,250 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:43,410 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:43,567 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:43,728 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:43,885 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:44,045 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:44,203 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:44,363 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:44,521 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:44,681 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:44,838 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:44,999 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:45,156 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:45,317 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:45,474 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:45,634 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:45,792 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:45,952 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:46,110 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:46,270 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:46,427 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:46,588 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:46,745 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:46,905 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:47,063 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:47,223 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:47,381 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:47,541 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:47,699 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:47,859 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:48,232 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:48,392 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:48,549 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:48,709 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:48,867 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:49,027 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:49,184 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:49,345 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:49,502 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:49,662 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:49,819 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:49,980 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,137 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,298 - INFO - epoch complete!
+2026-04-12 18:20:50,298 - INFO - evaluating now!
+2026-04-12 18:20:50,299 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,326 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,354 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,382 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,410 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,438 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,466 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,494 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,522 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,549 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,577 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,605 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,633 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,661 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,689 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,717 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,744 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,772 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,799 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,827 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,855 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,883 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,911 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,939 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,967 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:50,995 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:51,022 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:51,051 - INFO - Epoch [1/300] train_loss: 4.4928, val_loss: 4.0553, lr: 0.000989, 30.98s
+2026-04-12 18:20:51,069 - INFO - Saved model at 1
+2026-04-12 18:20:51,069 - INFO - Val loss decrease from 4.7209 to 4.0553, saving to ./libcity/cache/W001/model_cache/MCSTWeather_METR_LA_epoch1.tar
+2026-04-12 18:20:51,070 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:51,227 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:51,387 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:51,545 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:51,705 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:51,862 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:52,023 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:52,180 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:52,340 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:52,498 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:52,658 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:52,815 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:52,976 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:53,133 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:53,293 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:53,451 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:53,611 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:53,768 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:53,928 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:54,086 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:54,246 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:54,403 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:54,564 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:54,721 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:54,881 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:55,038 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:55,199 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:55,356 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:55,516 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:55,674 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:55,834 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:55,991 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:56,152 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:56,309 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:56,470 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:56,627 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:56,788 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:56,945 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:57,106 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:57,263 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:57,424 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:57,581 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:57,742 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:57,899 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:58,060 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:58,218 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:58,379 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:58,536 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:58,697 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:58,854 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:59,015 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:59,173 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:59,334 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:59,492 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:59,653 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:59,811 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:20:59,971 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:00,129 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:00,289 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:00,447 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:00,607 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:00,764 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:00,924 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:01,082 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:01,242 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:01,399 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:01,560 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:01,717 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:01,877 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:02,035 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:02,195 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:02,353 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:02,513 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:02,671 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:02,831 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:02,988 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:03,149 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:03,306 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:03,856 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:04,013 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:04,174 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:04,331 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:04,491 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:04,648 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:04,808 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:04,966 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:05,126 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:05,283 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:05,443 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:05,601 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:05,761 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:05,918 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:06,079 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:06,236 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:06,397 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:06,554 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:06,714 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:06,872 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:07,032 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:07,190 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:07,350 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:07,508 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:07,669 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:07,826 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:07,987 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:08,144 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:08,305 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:08,462 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:09,240 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:09,397 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:09,558 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:09,715 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:09,876 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:10,033 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:10,194 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:10,351 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:10,511 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:10,669 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:10,829 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:10,986 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:11,147 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:11,304 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:11,464 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:11,622 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:11,783 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:11,940 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:12,100 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:12,258 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:12,418 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:12,576 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:12,736 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:12,893 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:13,054 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:13,211 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:13,372 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:13,529 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:13,689 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:13,847 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:14,007 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:14,164 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:14,325 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:14,482 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:14,643 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:14,800 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:14,961 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:15,119 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:15,280 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:15,438 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:15,599 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:15,757 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:15,918 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:16,076 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:16,237 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:16,394 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:16,555 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:16,713 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:16,874 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:17,031 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:17,192 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:17,350 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:17,510 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:17,667 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:17,828 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:17,986 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:18,147 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:18,304 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:18,465 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:18,856 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:19,016 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:19,173 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:19,334 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:19,492 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:19,653 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:19,811 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:19,971 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:20,129 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:20,290 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:20,447 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:20,608 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:20,766 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:20,927 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:21,085 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:21,246 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:21,403 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:21,564 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:21,721 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:21,882 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,040 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,202 - INFO - epoch complete!
+2026-04-12 18:21:22,202 - INFO - evaluating now!
+2026-04-12 18:21:22,202 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,231 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,259 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,287 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,314 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,342 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,370 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,398 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,426 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,454 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,481 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,509 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,537 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,565 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,593 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,622 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,650 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,678 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,706 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,735 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,763 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,791 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,820 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,848 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,876 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,904 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,931 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:22,960 - INFO - Epoch [2/300] train_loss: 4.1441, val_loss: 3.9540, lr: 0.000976, 31.89s
+2026-04-12 18:21:23,087 - INFO - Saved model at 2
+2026-04-12 18:21:23,087 - INFO - Val loss decrease from 4.0553 to 3.9540, saving to ./libcity/cache/W001/model_cache/MCSTWeather_METR_LA_epoch2.tar
+2026-04-12 18:21:23,088 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:23,246 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:23,406 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:23,564 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:23,724 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:23,882 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:24,043 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:24,200 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:24,362 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:24,519 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:24,680 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:24,837 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:24,998 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:25,156 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:25,317 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:25,475 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:25,636 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:25,794 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:25,955 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:26,112 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:26,273 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:26,430 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:26,591 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:26,749 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:26,910 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:27,068 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:27,228 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:27,386 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:27,546 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:27,704 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:27,865 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:28,023 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:28,183 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:28,341 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:28,502 - INFO - MCSTWeather, timestamps is None.
+2026-04-12 18:21:28,659 - INFO - MCSTWeather, timestamps is None.
+^CTraceback (most recent call last):
+  File "/root/MCST-Mamba/run_model.py", line 41, in <module>
+    run_model(task=args.task, model_name=args.model, dataset_name=args.dataset,
+  File "/root/MCST-Mamba/libcity/pipeline/pipeline.py", line 250, in run_model
+    executor.train(train_data, valid_data)
+  File "/root/MCST-Mamba/libcity/executor/traffic_state_executor.py", line 500, in train
+    losses = self._train_epoch(train_dataloader, epoch_idx, self.loss_func)
+  File "/root/MCST-Mamba/libcity/executor/traffic_state_executor_optimized.py", line 121, in _train_epoch
+    loss = loss_func(batch)
+  File "/root/MCST-Mamba/libcity/model/traffic_speed_prediction/MCSTWeather.py", line 503, in calculate_loss
+    y_predicted = self.predict(batch)
+  File "/root/MCST-Mamba/libcity/model/traffic_speed_prediction/MCSTWeather.py", line 520, in predict
+    return self.forward(batch)  # forward 直接输出未来预测
+  File "/root/MCST-Mamba/libcity/model/traffic_speed_prediction/MCSTWeather.py", line 421, in forward
+    self._logger.info('MCSTWeather, timestamps is None.')
+  File "/miniconda3/envs/mcst/lib/python3.9/logging/__init__.py", line 1446, in info
+    self._log(INFO, msg, args, **kwargs)
+  File "/miniconda3/envs/mcst/lib/python3.9/logging/__init__.py", line 1589, in _log
+    self.handle(record)
+  File "/miniconda3/envs/mcst/lib/python3.9/logging/__init__.py", line 1599, in handle
+    self.callHandlers(record)
+  File "/miniconda3/envs/mcst/lib/python3.9/logging/__init__.py", line 1661, in callHandlers
+    hdlr.handle(record)
+  File "/miniconda3/envs/mcst/lib/python3.9/logging/__init__.py", line 952, in handle
+    self.emit(record)
+  File "/miniconda3/envs/mcst/lib/python3.9/logging/__init__.py", line 1187, in emit
+    StreamHandler.emit(self, record)
+  File "/miniconda3/envs/mcst/lib/python3.9/logging/__init__.py", line 1087, in emit
+    self.flush()
+  File "/miniconda3/envs/mcst/lib/python3.9/logging/__init__.py", line 1067, in flush
+    self.stream.flush()
+KeyboardInterrupt
+[?2004h(mcst) root@gpu-kvm:~/MCST-Mamba# [3m# 清除缓存[23m
+[3mrm -rf ./libcity/cache/dataset_cache/ ./libcity/cache/W001/[23m
+
+[3m# 运行模型[23m
+[3mpython run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_LA --exp_id W001[23mMMMM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C# 清除缓存
+rm -rf ./libcity/cache/dataset_cache/ ./libcity/cache/W001/
+
+# 运行模型
+python run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_LA --exp_id W001
+[?2004lTraceback (most recent call last):
+  File "/root/MCST-Mamba/run_model.py", line 41, in <module>
+    run_model(task=args.task, model_name=args.model, dataset_name=args.dataset,
+  File "/root/MCST-Mamba/libcity/pipeline/pipeline.py", line 165, in run_model
+    config = ConfigParser(task, model_name, dataset_name,
+  File "/root/MCST-Mamba/libcity/config/config_parser.py", line 25, in __init__
+    self._load_default_config()
+  File "/root/MCST-Mamba/libcity/config/config_parser.py", line 109, in _load_default_config
+    with open('./libcity/config/{}'.format(file_name), 'r') as f:
+FileNotFoundError: [Errno 2] No such file or directory: './libcity/config/data/MCSTWeatherDataset.json'
+[?2004h(mcst) root@gpu-kvm:~/MCST-Mamba# [K(mcst) root@gpu-kvm:~/MCST-Mamba# [K(mcst) root@gpu-kvm:~/MCST-Mamba# [3mrm -rf ./libcity/cache/dataset_cache/ ./libcity/cache/W001/[23m
+[3mpython run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_LA --exp_id W001[23mM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crm -rf ./libcity/cache/dataset_cache/ ./libcity/cache/W001/
+python run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_LA --exp_id W001
+[?2004l2026-04-12 19:12:43,494 - INFO - Log directory: ./libcity/log
+2026-04-12 19:12:43,494 - INFO - Begin pipeline, task=traffic_state_pred, model_name=MCSTWeather, dataset_name=METR_LA, exp_id=W001, epoch=0
+2026-04-12 19:12:43,494 - INFO - {'task': 'traffic_state_pred', 'model': 'MCSTWeather', 'dataset': 'METR_LA', 'saved_model': True, 'train': True, 'exp_id': 'W001', 'seed': 0, 'dataset_class': 'MCSTWeatherDataset', 'executor': 'TrafficStateExecutorOptimized', 'evaluator': 'TrafficStateEvaluator', 'input_window': 12, 'output_window': 12, 'input_embedding_dim': 24, 'tod_embedding_dim': 24, 'dow_embedding_dim': 24, 'spatial_embedding_dim': 16, 'adaptive_embedding_dim': 80, 'd_model': 96, 'd_state': 32, 'd_conv': 4, 'expand': 2, 'dropout': 0.1, 'weather_embed_dim': 64, 'use_weather': True, 'weather_file': None, 'add_time_in_day': True, 'add_day_in_week': True, 'steps_per_day': 288, 'max_epoch': 300, 'batch_size': 128, 'learning_rate': 0.001, 'optimizer': 'adam', 'lr_decay': True, 'lr_scheduler': 'cosineannealinglr', 'patience': 30, 'use_early_stop': True, 'scaler': 'standard', 'load_external': True, 'normal_external': False, 'ext_scaler': 'none', 'cache_dataset': True, 'num_workers': 0, 'pad_with_last_sample': True, 'train_rate': 0.7, 'eval_rate': 0.1, 'robustness_test': False, 'noise_type': 'gaussian', 'disturb_rate': 0.5, 'noise_mean': [5], 'noise_SD': [10], 'gpu': True, 'gpu_id': 0, 'train_loss': 'none', 'epoch': 0, 'learner': 'adam', 'weight_decay': 0.0001, 'lr_epsilon': 1e-08, 'lr_beta1': 0.9, 'lr_beta2': 0.999, 'lr_alpha': 0.99, 'lr_momentum': 0, 'lr_decay_ratio': 0.1, 'steps': [10, 30, 50, 80], 'step_size': 10, 'lr_T_max': 30, 'lr_eta_min': 0, 'lr_patience': 5, 'lr_threshold': 0.0001, 'clip_grad_norm': True, 'max_grad_norm': 5.0, 'log_level': 'INFO', 'log_every': 1, 'load_best_epoch': True, 'hyper_tune': False, 'fp16': True, 'gradient_accumulation_steps': 2, 'metrics': ['MAE', 'MAPE', 'MSE', 'RMSE', 'masked_MAE', 'masked_MAPE', 'masked_MSE', 'masked_RMSE', 'R2', 'EVAR'], 'evaluator_mode': 'single', 'save_mode': ['csv'], 'geo': {'including_types': ['Point'], 'Point': {}}, 'rel': {'including_types': ['geo'], 'geo': {'cost': 'num'}}, 'dyna': {'including_types': ['state'], 'state': {'entity_id': 'geo_id', 'traffic_speed': 'num'}}, 'data_col': ['traffic_speed'], 'weight_col': 'cost', 'data_files': ['METR_LA'], 'geo_file': 'METR_LA', 'rel_file': 'METR_LA', 'output_dim': 1, 'time_intervals': 300, 'init_weight_inf_or_zero': 'inf', 'set_weight_link_or_dist': 'dist', 'calculate_weight_adj': True, 'weight_adj_epsilon': 0.1, 'device': device(type='cuda', index=0)}
+Traceback (most recent call last):
+  File "/root/MCST-Mamba/libcity/data/utils_optimized.py", line 20, in get_dataset
+    return getattr(importlib.import_module('libcity.data.dataset'),
+AttributeError: module 'libcity.data.dataset' has no attribute 'MCSTWeatherDataset'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/MCST-Mamba/run_model.py", line 41, in <module>
+    run_model(task=args.task, model_name=args.model, dataset_name=args.dataset,
+  File "/root/MCST-Mamba/libcity/pipeline/pipeline.py", line 239, in run_model
+    dataset = get_dataset(config)
+  File "/root/MCST-Mamba/libcity/data/utils_optimized.py", line 24, in get_dataset
+    return getattr(importlib.import_module('libcity.data.dataset.dataset_subclass'),
+  File "/miniconda3/envs/mcst/lib/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/root/MCST-Mamba/libcity/data/dataset/dataset_subclass/__init__.py", line 1, in <module>
+    from libcity.data.dataset.dataset_subclass.fogs_dataset import FOGSDataset
+  File "/root/MCST-Mamba/libcity/data/dataset/dataset_subclass/fogs_dataset.py", line 10, in <module>
+    from gensim.models import Word2Vec
+  File "/miniconda3/envs/mcst/lib/python3.9/site-packages/gensim/__init__.py", line 11, in <module>
+    from gensim import parsing, corpora, matutils, interfaces, models, similarities, utils  # noqa:F401
+  File "/miniconda3/envs/mcst/lib/python3.9/site-packages/gensim/corpora/__init__.py", line 6, in <module>
+    from .indexedcorpus import IndexedCorpus  # noqa:F401 must appear before the other classes
+  File "/miniconda3/envs/mcst/lib/python3.9/site-packages/gensim/corpora/indexedcorpus.py", line 14, in <module>
+    from gensim import interfaces, utils
+  File "/miniconda3/envs/mcst/lib/python3.9/site-packages/gensim/interfaces.py", line 19, in <module>
+    from gensim import utils, matutils
+  File "/miniconda3/envs/mcst/lib/python3.9/site-packages/gensim/matutils.py", line 1034, in <module>
+    from gensim._matutils import logsumexp, mean_absolute_difference, dirichlet_expectation
+  File "gensim/_matutils.pyx", line 1, in init gensim._matutils
+ValueError: numpy.dtype size changed, may indicate binary incompatibility. Expected 96 from C header, got 88 from PyObject
+[?2004h(mcst) root@gpu-kvm:~/MCST-Mamba# python run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_LA --exp_id W001[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[38Prm -rf ./libcity/cache/dataset_cache/ ./libcity/cache/W001/[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpython run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_LA --exp_id W001[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K[3mrm -rf ./libcity/cache/dataset_cache/ ./libcity/cache/W001/[23m
+[3mpython run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_LA --exp_id W001[23mM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crm -rf ./libcity/cache/dataset_cache/ ./libcity/cache/W001/
+python run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_LA --exp_id W001
+[?2004l2026-04-12 19:19:34,564 - INFO - Log directory: ./libcity/log
+2026-04-12 19:19:34,565 - INFO - Begin pipeline, task=traffic_state_pred, model_name=MCSTWeather, dataset_name=METR_LA, exp_id=W001, epoch=0
+2026-04-12 19:19:34,565 - INFO - {'task': 'traffic_state_pred', 'model': 'MCSTWeather', 'dataset': 'METR_LA', 'saved_model': True, 'train': True, 'exp_id': 'W001', 'seed': 0, 'dataset_class': 'MCSTWeatherDataset', 'executor': 'TrafficStateExecutorOptimized', 'evaluator': 'TrafficStateEvaluator', 'input_window': 12, 'output_window': 12, 'input_embedding_dim': 24, 'tod_embedding_dim': 24, 'dow_embedding_dim': 24, 'spatial_embedding_dim': 16, 'adaptive_embedding_dim': 80, 'd_model': 96, 'd_state': 32, 'd_conv': 4, 'expand': 2, 'dropout': 0.1, 'weather_embed_dim': 64, 'use_weather': True, 'weather_file': None, 'add_time_in_day': True, 'add_day_in_week': True, 'steps_per_day': 288, 'max_epoch': 300, 'batch_size': 128, 'learning_rate': 0.001, 'optimizer': 'adam', 'lr_decay': True, 'lr_scheduler': 'cosineannealinglr', 'patience': 30, 'use_early_stop': True, 'scaler': 'standard', 'load_external': True, 'normal_external': False, 'ext_scaler': 'none', 'cache_dataset': True, 'num_workers': 0, 'pad_with_last_sample': True, 'train_rate': 0.7, 'eval_rate': 0.1, 'robustness_test': False, 'noise_type': 'gaussian', 'disturb_rate': 0.5, 'noise_mean': [5], 'noise_SD': [10], 'gpu': True, 'gpu_id': 0, 'train_loss': 'none', 'epoch': 0, 'learner': 'adam', 'weight_decay': 0.0001, 'lr_epsilon': 1e-08, 'lr_beta1': 0.9, 'lr_beta2': 0.999, 'lr_alpha': 0.99, 'lr_momentum': 0, 'lr_decay_ratio': 0.1, 'steps': [10, 30, 50, 80], 'step_size': 10, 'lr_T_max': 30, 'lr_eta_min': 0, 'lr_patience': 5, 'lr_threshold': 0.0001, 'clip_grad_norm': True, 'max_grad_norm': 5.0, 'log_level': 'INFO', 'log_every': 1, 'load_best_epoch': True, 'hyper_tune': False, 'fp16': True, 'gradient_accumulation_steps': 2, 'metrics': ['MAE', 'MAPE', 'MSE', 'RMSE', 'masked_MAE', 'masked_MAPE', 'masked_MSE', 'masked_RMSE', 'R2', 'EVAR'], 'evaluator_mode': 'single', 'save_mode': ['csv'], 'geo': {'including_types': ['Point'], 'Point': {}}, 'rel': {'including_types': ['geo'], 'geo': {'cost': 'num'}}, 'dyna': {'including_types': ['state'], 'state': {'entity_id': 'geo_id', 'traffic_speed': 'num'}}, 'data_col': ['traffic_speed'], 'weight_col': 'cost', 'data_files': ['METR_LA'], 'geo_file': 'METR_LA', 'rel_file': 'METR_LA', 'output_dim': 1, 'time_intervals': 300, 'init_weight_inf_or_zero': 'inf', 'set_weight_link_or_dist': 'dist', 'calculate_weight_adj': True, 'weight_adj_epsilon': 0.1, 'device': device(type='cuda', index=0)}
+2026-04-12 19:19:34,901 - INFO - Loaded file METR_LA.geo, num_nodes=207
+2026-04-12 19:19:34,907 - INFO - set_weight_link_or_dist: dist
+2026-04-12 19:19:34,907 - INFO - init_weight_inf_or_zero: inf
+2026-04-12 19:19:34,922 - INFO - Loaded file METR_LA.rel, shape=(207, 207)
+2026-04-12 19:19:34,922 - INFO - Start Calculate the weight by Gauss kernel!
+2026-04-12 19:19:43,412 - INFO - Loaded 34272 timestamps from METR_LA
+2026-04-12 19:19:43,479 - INFO - Loading file METR_LA.dyna
+2026-04-12 19:19:47,333 - INFO - Loaded file METR_LA.dyna, shape=(34272, 207, 1)
+Traceback (most recent call last):
+  File "/root/MCST-Mamba/run_model.py", line 41, in <module>
+    run_model(task=args.task, model_name=args.model, dataset_name=args.dataset,
+  File "/root/MCST-Mamba/libcity/pipeline/pipeline.py", line 241, in run_model
+    train_data, valid_data, test_data = dataset.get_data()
+  File "/root/MCST-Mamba/libcity/data/dataset/dataset_subclass/mcst_weather_dataset.py", line 241, in get_data
+    self._generate_data()
+  File "/root/MCST-Mamba/libcity/data/dataset/dataset_subclass/mcst_weather_dataset.py", line 126, in _generate_data
+    x, y, time_indices = self._generate_input_data(df)
+  File "/root/MCST-Mamba/libcity/data/dataset/dataset_subclass/mcst_weather_dataset.py", line 84, in _generate_input_data
+    time_idx = int(minutes_since_midnight / (24 * 60 / self.steps_per_day))
+AttributeError: 'MCSTWeatherDataset' object has no attribute 'steps_per_day'
+[?2004h(mcst) root@gpu-kvm:~/MCST-Mamba# [3mrm -rf ./libcity/cache/dataset_cache/ ./libcity/cache/W001/[23m
+[3mpython run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_LA --exp_id W001[23mM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crm -rf ./libcity/cache/dataset_cache/ ./libcity/cache/W001/
+python run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_LA --exp_id W001
+[?2004l2026-04-12 19:21:07,058 - INFO - Log directory: ./libcity/log
+2026-04-12 19:21:07,058 - INFO - Begin pipeline, task=traffic_state_pred, model_name=MCSTWeather, dataset_name=METR_LA, exp_id=W001, epoch=0
+2026-04-12 19:21:07,058 - INFO - {'task': 'traffic_state_pred', 'model': 'MCSTWeather', 'dataset': 'METR_LA', 'saved_model': True, 'train': True, 'exp_id': 'W001', 'seed': 0, 'dataset_class': 'MCSTWeatherDataset', 'executor': 'TrafficStateExecutorOptimized', 'evaluator': 'TrafficStateEvaluator', 'input_window': 12, 'output_window': 12, 'input_embedding_dim': 24, 'tod_embedding_dim': 24, 'dow_embedding_dim': 24, 'spatial_embedding_dim': 16, 'adaptive_embedding_dim': 80, 'd_model': 96, 'd_state': 32, 'd_conv': 4, 'expand': 2, 'dropout': 0.1, 'weather_embed_dim': 64, 'use_weather': True, 'weather_file': None, 'add_time_in_day': True, 'add_day_in_week': True, 'steps_per_day': 288, 'max_epoch': 300, 'batch_size': 128, 'learning_rate': 0.001, 'optimizer': 'adam', 'lr_decay': True, 'lr_scheduler': 'cosineannealinglr', 'patience': 30, 'use_early_stop': True, 'scaler': 'standard', 'load_external': True, 'normal_external': False, 'ext_scaler': 'none', 'cache_dataset': True, 'num_workers': 0, 'pad_with_last_sample': True, 'train_rate': 0.7, 'eval_rate': 0.1, 'robustness_test': False, 'noise_type': 'gaussian', 'disturb_rate': 0.5, 'noise_mean': [5], 'noise_SD': [10], 'gpu': True, 'gpu_id': 0, 'train_loss': 'none', 'epoch': 0, 'learner': 'adam', 'weight_decay': 0.0001, 'lr_epsilon': 1e-08, 'lr_beta1': 0.9, 'lr_beta2': 0.999, 'lr_alpha': 0.99, 'lr_momentum': 0, 'lr_decay_ratio': 0.1, 'steps': [10, 30, 50, 80], 'step_size': 10, 'lr_T_max': 30, 'lr_eta_min': 0, 'lr_patience': 5, 'lr_threshold': 0.0001, 'clip_grad_norm': True, 'max_grad_norm': 5.0, 'log_level': 'INFO', 'log_every': 1, 'load_best_epoch': True, 'hyper_tune': False, 'fp16': True, 'gradient_accumulation_steps': 2, 'metrics': ['MAE', 'MAPE', 'MSE', 'RMSE', 'masked_MAE', 'masked_MAPE', 'masked_MSE', 'masked_RMSE', 'R2', 'EVAR'], 'evaluator_mode': 'single', 'save_mode': ['csv'], 'geo': {'including_types': ['Point'], 'Point': {}}, 'rel': {'including_types': ['geo'], 'geo': {'cost': 'num'}}, 'dyna': {'including_types': ['state'], 'state': {'entity_id': 'geo_id', 'traffic_speed': 'num'}}, 'data_col': ['traffic_speed'], 'weight_col': 'cost', 'data_files': ['METR_LA'], 'geo_file': 'METR_LA', 'rel_file': 'METR_LA', 'output_dim': 1, 'time_intervals': 300, 'init_weight_inf_or_zero': 'inf', 'set_weight_link_or_dist': 'dist', 'calculate_weight_adj': True, 'weight_adj_epsilon': 0.1, 'device': device(type='cuda', index=0)}
+2026-04-12 19:21:07,380 - INFO - Loaded file METR_LA.geo, num_nodes=207
+2026-04-12 19:21:07,386 - INFO - set_weight_link_or_dist: dist
+2026-04-12 19:21:07,386 - INFO - init_weight_inf_or_zero: inf
+2026-04-12 19:21:07,400 - INFO - Loaded file METR_LA.rel, shape=(207, 207)
+2026-04-12 19:21:07,400 - INFO - Start Calculate the weight by Gauss kernel!
+2026-04-12 19:21:16,064 - INFO - Loaded 34272 timestamps from METR_LA
+2026-04-12 19:21:16,132 - INFO - Loading file METR_LA.dyna
+2026-04-12 19:21:19,970 - INFO - Loaded file METR_LA.dyna, shape=(34272, 207, 1)
+2026-04-12 19:21:31,004 - INFO - Dataset created with time indices
+2026-04-12 19:21:31,004 - INFO - x shape: (34249, 12, 207, 9), y shape: (34249, 12, 207, 9), time_indices shape: (34249,)
+2026-04-12 19:21:31,004 - INFO - train	x: (23974, 12, 207, 9), y: (23974, 12, 207, 9), time: (23974,)
+2026-04-12 19:21:31,004 - INFO - eval	x: (3425, 12, 207, 9), y: (3425, 12, 207, 9), time: (3425,)
+2026-04-12 19:21:31,004 - INFO - test	x: (6850, 12, 207, 9), y: (6850, 12, 207, 9), time: (6850,)
+2026-04-12 19:23:02,907 - INFO - Saved at ./libcity/cache/dataset_cache/mcst_weather_METR_LA_12_12_0.7_0.1_standard_128_True_True_True_True.npz
+2026-04-12 19:23:03,877 - INFO - StandardScaler mean: 54.40592829587626, std: 19.493739270573094
+2026-04-12 19:23:03,877 - INFO - NoneScaler
+Traceback (most recent call last):
+  File "/root/MCST-Mamba/run_model.py", line 41, in <module>
+    run_model(task=args.task, model_name=args.model, dataset_name=args.dataset,
+  File "/root/MCST-Mamba/libcity/pipeline/pipeline.py", line 241, in run_model
+    train_data, valid_data, test_data = dataset.get_data()
+  File "/root/MCST-Mamba/libcity/data/dataset/dataset_subclass/mcst_weather_dataset.py", line 282, in get_data
+    generate_dataloader(train_data, eval_data, test_data, self.feature_name,
+  File "/root/MCST-Mamba/libcity/data/utils_optimized.py", line 67, in generate_dataloader
+    data_padding = np.repeat(train_data[-1:], num_padding, axis=0)
+  File "/miniconda3/envs/mcst/lib/python3.9/site-packages/numpy/_core/fromnumeric.py", line 480, in repeat
+    return _wrapfunc(a, 'repeat', repeats, axis=axis)
+  File "/miniconda3/envs/mcst/lib/python3.9/site-packages/numpy/_core/fromnumeric.py", line 54, in _wrapfunc
+    return _wrapit(obj, method, *args, **kwds)
+  File "/miniconda3/envs/mcst/lib/python3.9/site-packages/numpy/_core/fromnumeric.py", line 42, in _wrapit
+    conv = _array_converter(obj)
+ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 2 dimensions. The detected shape was (1, 3) + inhomogeneous part.
+[?2004h(mcst) root@gpu-kvm:~/MCST-Mamba# [K(mcst) root@gpu-kvm:~/MCST-Mamba# [3mrm -rf ./libcity/cache/dataset_cache/ ./libcity[23m[3m/[23m[3mcache/W001/ [23m
+[3mpython run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_[23m[3mL[23m[3mA --exp_id W001[23mMMM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crm -rf ./libcity/cache/dataset_cache/ ./libcity/cache/W001/
+python run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_LA --exp_id W001
+[?2004l2026-04-12 19:29:50,228 - INFO - Log directory: ./libcity/log
+2026-04-12 19:29:50,228 - INFO - Begin pipeline, task=traffic_state_pred, model_name=MCSTWeather, dataset_name=METR_LA, exp_id=W001, epoch=0
+2026-04-12 19:29:50,228 - INFO - {'task': 'traffic_state_pred', 'model': 'MCSTWeather', 'dataset': 'METR_LA', 'saved_model': True, 'train': True, 'exp_id': 'W001', 'seed': 0, 'dataset_class': 'MCSTWeatherDataset', 'executor': 'TrafficStateExecutorOptimized', 'evaluator': 'TrafficStateEvaluator', 'input_window': 12, 'output_window': 12, 'input_embedding_dim': 24, 'tod_embedding_dim': 24, 'dow_embedding_dim': 24, 'spatial_embedding_dim': 16, 'adaptive_embedding_dim': 80, 'd_model': 96, 'd_state': 32, 'd_conv': 4, 'expand': 2, 'dropout': 0.1, 'weather_embed_dim': 64, 'use_weather': True, 'weather_file': None, 'add_time_in_day': True, 'add_day_in_week': True, 'steps_per_day': 288, 'max_epoch': 300, 'batch_size': 128, 'learning_rate': 0.001, 'optimizer': 'adam', 'lr_decay': True, 'lr_scheduler': 'cosineannealinglr', 'patience': 30, 'use_early_stop': True, 'scaler': 'standard', 'load_external': True, 'normal_external': False, 'ext_scaler': 'none', 'cache_dataset': True, 'num_workers': 0, 'pad_with_last_sample': True, 'train_rate': 0.7, 'eval_rate': 0.1, 'robustness_test': False, 'noise_type': 'gaussian', 'disturb_rate': 0.5, 'noise_mean': [5], 'noise_SD': [10], 'gpu': True, 'gpu_id': 0, 'train_loss': 'none', 'epoch': 0, 'learner': 'adam', 'weight_decay': 0.0001, 'lr_epsilon': 1e-08, 'lr_beta1': 0.9, 'lr_beta2': 0.999, 'lr_alpha': 0.99, 'lr_momentum': 0, 'lr_decay_ratio': 0.1, 'steps': [10, 30, 50, 80], 'step_size': 10, 'lr_T_max': 30, 'lr_eta_min': 0, 'lr_patience': 5, 'lr_threshold': 0.0001, 'clip_grad_norm': True, 'max_grad_norm': 5.0, 'log_level': 'INFO', 'log_every': 1, 'load_best_epoch': True, 'hyper_tune': False, 'fp16': True, 'gradient_accumulation_steps': 2, 'metrics': ['MAE', 'MAPE', 'MSE', 'RMSE', 'masked_MAE', 'masked_MAPE', 'masked_MSE', 'masked_RMSE', 'R2', 'EVAR'], 'evaluator_mode': 'single', 'save_mode': ['csv'], 'geo': {'including_types': ['Point'], 'Point': {}}, 'rel': {'including_types': ['geo'], 'geo': {'cost': 'num'}}, 'dyna': {'including_types': ['state'], 'state': {'entity_id': 'geo_id', 'traffic_speed': 'num'}}, 'data_col': ['traffic_speed'], 'weight_col': 'cost', 'data_files': ['METR_LA'], 'geo_file': 'METR_LA', 'rel_file': 'METR_LA', 'output_dim': 1, 'time_intervals': 300, 'init_weight_inf_or_zero': 'inf', 'set_weight_link_or_dist': 'dist', 'calculate_weight_adj': True, 'weight_adj_epsilon': 0.1, 'device': device(type='cuda', index=0)}
+2026-04-12 19:29:50,556 - INFO - Loaded file METR_LA.geo, num_nodes=207
+2026-04-12 19:29:50,562 - INFO - set_weight_link_or_dist: dist
+2026-04-12 19:29:50,562 - INFO - init_weight_inf_or_zero: inf
+2026-04-12 19:29:50,576 - INFO - Loaded file METR_LA.rel, shape=(207, 207)
+2026-04-12 19:29:50,576 - INFO - Start Calculate the weight by Gauss kernel!
+2026-04-12 19:29:59,113 - INFO - Loaded 34272 timestamps from METR_LA
+2026-04-12 19:29:59,182 - INFO - Loading file METR_LA.dyna
+2026-04-12 19:30:03,100 - INFO - Loaded file METR_LA.dyna, shape=(34272, 207, 1)
+2026-04-12 19:30:14,404 - INFO - Dataset created with time indices
+2026-04-12 19:30:14,405 - INFO - x shape: (34249, 12, 207, 9), y shape: (34249, 12, 207, 9), time_indices shape: (34249,)
+2026-04-12 19:30:14,405 - INFO - train	x: (23974, 12, 207, 9), y: (23974, 12, 207, 9), time: (23974,)
+2026-04-12 19:30:14,405 - INFO - eval	x: (3425, 12, 207, 9), y: (3425, 12, 207, 9), time: (3425,)
+2026-04-12 19:30:14,405 - INFO - test	x: (6850, 12, 207, 9), y: (6850, 12, 207, 9), time: (6850,)
+2026-04-12 19:31:46,446 - INFO - Saved at ./libcity/cache/dataset_cache/mcst_weather_METR_LA_12_12_0.7_0.1_standard_128_True_True_True_True.npz
+2026-04-12 19:31:47,448 - INFO - StandardScaler mean: 54.40592829587626, std: 19.493739270573094
+2026-04-12 19:31:47,449 - INFO - NoneScaler
+Traceback (most recent call last):
+  File "/root/MCST-Mamba/run_model.py", line 41, in <module>
+    run_model(task=args.task, model_name=args.model, dataset_name=args.dataset,
+  File "/root/MCST-Mamba/libcity/pipeline/pipeline.py", line 241, in run_model
+    train_data, valid_data, test_data = dataset.get_data()
+  File "/root/MCST-Mamba/libcity/data/dataset/dataset_subclass/mcst_weather_dataset.py", line 282, in get_data
+    generate_dataloader(train_data, eval_data, test_data, self.feature_name,
+  File "/root/MCST-Mamba/libcity/data/utils_optimized.py", line 67, in generate_dataloader
+    data_padding = np.repeat(train_data[-1:], num_padding, axis=0)
+  File "/miniconda3/envs/mcst/lib/python3.9/site-packages/numpy/_core/fromnumeric.py", line 480, in repeat
+    return _wrapfunc(a, 'repeat', repeats, axis=axis)
+  File "/miniconda3/envs/mcst/lib/python3.9/site-packages/numpy/_core/fromnumeric.py", line 54, in _wrapfunc
+    return _wrapit(obj, method, *args, **kwds)
+  File "/miniconda3/envs/mcst/lib/python3.9/site-packages/numpy/_core/fromnumeric.py", line 42, in _wrapit
+    conv = _array_converter(obj)
+ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 2 dimensions. The detected shape was (1, 3) + inhomogeneous part.
+[?2004h(mcst) root@gpu-kvm:~/MCST-Mamba# [K(mcst) root@gpu-kvm:~/MCST-Mamba# [K(mcst) root@gpu-kvm:~/MCST-Mamba# [3mrm -rf ./libcity/cache/dataset_cache/ ./libcity/cache/W001/[23m
+[3mpython run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_LA --exp_id W001[23mM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crm -rf ./libcity/cache/dataset_cache/ ./libcity/cache/W001/
+python run_model.py --task traffic_state_pred --model MCSTWeather --dataset METR_LA --exp_id W001
+[?2004l2026-04-12 19:59:53,733 - INFO - Log directory: ./libcity/log
+2026-04-12 19:59:53,733 - INFO - Begin pipeline, task=traffic_state_pred, model_name=MCSTWeather, dataset_name=METR_LA, exp_id=W001, epoch=0
+2026-04-12 19:59:53,733 - INFO - {'task': 'traffic_state_pred', 'model': 'MCSTWeather', 'dataset': 'METR_LA', 'saved_model': True, 'train': True, 'exp_id': 'W001', 'seed': 0, 'dataset_class': 'MCSTWeatherDataset', 'executor': 'TrafficStateExecutorOptimized', 'evaluator': 'TrafficStateEvaluator', 'input_window': 12, 'output_window': 12, 'input_embedding_dim': 24, 'tod_embedding_dim': 24, 'dow_embedding_dim': 24, 'spatial_embedding_dim': 16, 'adaptive_embedding_dim': 80, 'd_model': 96, 'd_state': 32, 'd_conv': 4, 'expand': 2, 'dropout': 0.1, 'weather_embed_dim': 64, 'use_weather': True, 'weather_file': None, 'add_time_in_day': True, 'add_day_in_week': True, 'steps_per_day': 288, 'max_epoch': 300, 'batch_size': 128, 'learning_rate': 0.001, 'optimizer': 'adam', 'lr_decay': True, 'lr_scheduler': 'cosineannealinglr', 'patience': 30, 'use_early_stop': True, 'scaler': 'standard', 'load_external': True, 'normal_external': False, 'ext_scaler': 'none', 'cache_dataset': True, 'num_workers': 0, 'pad_with_last_sample': True, 'train_rate': 0.7, 'eval_rate': 0.1, 'robustness_test': False, 'noise_type': 'gaussian', 'disturb_rate': 0.5, 'noise_mean': [5], 'noise_SD': [10], 'gpu': True, 'gpu_id': 0, 'train_loss': 'none', 'epoch': 0, 'learner': 'adam', 'weight_decay': 0.0001, 'lr_epsilon': 1e-08, 'lr_beta1': 0.9, 'lr_beta2': 0.999, 'lr_alpha': 0.99, 'lr_momentum': 0, 'lr_decay_ratio': 0.1, 'steps': [10, 30, 50, 80], 'step_size': 10, 'lr_T_max': 30, 'lr_eta_min': 0, 'lr_patience': 5, 'lr_threshold': 0.0001, 'clip_grad_norm': True, 'max_grad_norm': 5.0, 'log_level': 'INFO', 'log_every': 1, 'load_best_epoch': True, 'hyper_tune': False, 'fp16': True, 'gradient_accumulation_steps': 2, 'metrics': ['MAE', 'MAPE', 'MSE', 'RMSE', 'masked_MAE', 'masked_MAPE', 'masked_MSE', 'masked_RMSE', 'R2', 'EVAR'], 'evaluator_mode': 'single', 'save_mode': ['csv'], 'geo': {'including_types': ['Point'], 'Point': {}}, 'rel': {'including_types': ['geo'], 'geo': {'cost': 'num'}}, 'dyna': {'including_types': ['state'], 'state': {'entity_id': 'geo_id', 'traffic_speed': 'num'}}, 'data_col': ['traffic_speed'], 'weight_col': 'cost', 'data_files': ['METR_LA'], 'geo_file': 'METR_LA', 'rel_file': 'METR_LA', 'output_dim': 1, 'time_intervals': 300, 'init_weight_inf_or_zero': 'inf', 'set_weight_link_or_dist': 'dist', 'calculate_weight_adj': True, 'weight_adj_epsilon': 0.1, 'device': device(type='cuda', index=0)}
+2026-04-12 19:59:54,081 - INFO - Loaded file METR_LA.geo, num_nodes=207
+2026-04-12 19:59:54,087 - INFO - set_weight_link_or_dist: dist
+2026-04-12 19:59:54,087 - INFO - init_weight_inf_or_zero: inf
+2026-04-12 19:59:54,101 - INFO - Loaded file METR_LA.rel, shape=(207, 207)
+2026-04-12 19:59:54,101 - INFO - Start Calculate the weight by Gauss kernel!
+2026-04-12 20:00:02,644 - INFO - Loaded 34272 timestamps from METR_LA
+2026-04-12 20:00:02,710 - INFO - Loading file METR_LA.dyna
+2026-04-12 20:00:06,619 - INFO - Loaded file METR_LA.dyna, shape=(34272, 207, 1)
+2026-04-12 20:00:17,667 - INFO - Dataset created with time indices
+2026-04-12 20:00:17,668 - INFO - x shape: (34249, 12, 207, 9), y shape: (34249, 12, 207, 9), time_indices shape: (34249,)
+2026-04-12 20:00:17,668 - INFO - train	x: (23974, 12, 207, 9), y: (23974, 12, 207, 9), time: (23974,)
+2026-04-12 20:00:17,668 - INFO - eval	x: (3425, 12, 207, 9), y: (3425, 12, 207, 9), time: (3425,)
+2026-04-12 20:00:17,668 - INFO - test	x: (6850, 12, 207, 9), y: (6850, 12, 207, 9), time: (6850,)
+2026-04-12 20:01:48,828 - INFO - Saved at ./libcity/cache/dataset_cache/mcst_weather_METR_LA_12_12_0.7_0.1_standard_128_True_True_True_True.npz
+2026-04-12 20:01:49,801 - INFO - StandardScaler mean: 54.40592829587626, std: 19.493739270573094
+2026-04-12 20:01:49,801 - INFO - NoneScaler
+/root/MCST-Mamba/libcity/model/traffic_speed_prediction/MCSTWeather.py:103: FutureWarning: Series.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  self.weather_df[col] = self.weather_df[col].fillna(method='ffill')
+/root/MCST-Mamba/libcity/model/traffic_speed_prediction/MCSTWeather.py:105: FutureWarning: Series.fillna with 'method' is deprecated and will raise in a future version. Use obj.ffill() or obj.bfill() instead.
+  self.weather_df[col] = self.weather_df[col].fillna(method='bfill')
+2026-04-12 20:01:55,722 - INFO - Built time mapping for 34272 timestamps
+2026-04-12 20:01:55,734 - INFO - Weather data loaded from ./raw_data/METR_LA/weather.csv
+2026-04-12 20:01:55,734 - INFO - Weather features: ['temp_range', 'temp_avg', 'apparent_temp_diff', 'humidity_level', 'humidity_change', 'humidity_range', 'wind_gust_ratio', 'wind_avg', 'wind_speed', 'pressure_diff', 'pressure_change', 'pressure_level', 'has_precipitation', 'precipitation_level', 'wind_dir_sin', 'wind_dir_cos', 'weather_phenomena_count', 'has_severe_weather', 'hour', 'hour_sin', 'hour_cos']
+2026-04-12 20:01:55,735 - INFO - Building MCSTWeather model with weather integration
+2026-04-12 20:01:55,864 - INFO - MCSTWeather model initialized with weather_embed_dim=64
+2026-04-12 20:01:56,504 - INFO - MCSTWeather(
+  (input_proj): Linear(in_features=9, out_features=24, bias=True)
+  (tod_embedding): Embedding(288, 24)
+  (dow_embedding): Embedding(7, 24)
+  (mamba_input_proj): Linear(in_features=168, out_features=96, bias=True)
+  (weather_feature_proj): Sequential(
+    (0): Linear(in_features=21, out_features=128, bias=True)
+    (1): ReLU()
+    (2): Dropout(p=0.1, inplace=False)
+    (3): Linear(in_features=128, out_features=64, bias=True)
+  )
+  (weather_spatial_expand): Linear(in_features=64, out_features=64, bias=True)
+  (temporal_block): SimpleMambaWeatherBlock(
+    (layer_norm): LayerNorm((96,), eps=1e-05, elementwise_affine=True)
+    (mamba_weather): MambaWeather(
+      (in_proj): Linear(in_features=96, out_features=384, bias=False)
+      (conv1d): Conv1d(192, 192, kernel_size=(4,), stride=(1,), padding=(3,), groups=192)
+      (act): SiLU()
+      (x_proj): Linear(in_features=256, out_features=70, bias=False)
+      (dt_proj): Linear(in_features=6, out_features=192, bias=True)
+      (out_proj): Linear(in_features=192, out_features=96, bias=False)
+      (weather_proj): Linear(in_features=64, out_features=64, bias=True)
+    )
+    (dropout): Dropout(p=0.1, inplace=False)
+    (feed_forward): Sequential(
+      (0): Linear(in_features=96, out_features=384, bias=True)
+      (1): GELU(approximate='none')
+      (2): Dropout(p=0.1, inplace=False)
+      (3): Linear(in_features=384, out_features=96, bias=True)
+    )
+    (ff_norm): LayerNorm((96,), eps=1e-05, elementwise_affine=True)
+    (ff_dropout): Dropout(p=0.1, inplace=False)
+  )
+  (spatial_block): SimpleMambaWeatherBlock(
+    (layer_norm): LayerNorm((96,), eps=1e-05, elementwise_affine=True)
+    (mamba_weather): MambaWeather(
+      (in_proj): Linear(in_features=96, out_features=384, bias=False)
+      (conv1d): Conv1d(192, 192, kernel_size=(4,), stride=(1,), padding=(3,), groups=192)
+      (act): SiLU()
+      (x_proj): Linear(in_features=256, out_features=70, bias=False)
+      (dt_proj): Linear(in_features=6, out_features=192, bias=True)
+      (out_proj): Linear(in_features=192, out_features=96, bias=False)
+      (weather_proj): Linear(in_features=64, out_features=64, bias=True)
+    )
+    (dropout): Dropout(p=0.1, inplace=False)
+    (feed_forward): Sequential(
+      (0): Linear(in_features=96, out_features=384, bias=True)
+      (1): GELU(approximate='none')
+      (2): Dropout(p=0.1, inplace=False)
+      (3): Linear(in_features=384, out_features=96, bias=True)
+    )
+    (ff_norm): LayerNorm((96,), eps=1e-05, elementwise_affine=True)
+    (ff_dropout): Dropout(p=0.1, inplace=False)
+  )
+  (temporal_proj): Linear(in_features=12, out_features=12, bias=True)
+  (output_proj): Linear(in_features=96, out_features=1, bias=True)
+  (final_layer_norm): LayerNorm((96,), eps=1e-05, elementwise_affine=True)
+)
+2026-04-12 20:01:56,505 - INFO - spatial_embedding	torch.Size([207, 16])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - adaptive_embedding	torch.Size([12, 207, 80])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - combine_weights	torch.Size([2, 96])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - input_proj.weight	torch.Size([24, 9])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - input_proj.bias	torch.Size([24])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - tod_embedding.weight	torch.Size([288, 24])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - dow_embedding.weight	torch.Size([7, 24])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - mamba_input_proj.weight	torch.Size([96, 168])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - mamba_input_proj.bias	torch.Size([96])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - weather_feature_proj.0.weight	torch.Size([128, 21])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - weather_feature_proj.0.bias	torch.Size([128])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - weather_feature_proj.3.weight	torch.Size([64, 128])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - weather_feature_proj.3.bias	torch.Size([64])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - weather_spatial_expand.weight	torch.Size([64, 64])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - weather_spatial_expand.bias	torch.Size([64])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - temporal_block.layer_norm.weight	torch.Size([96])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - temporal_block.layer_norm.bias	torch.Size([96])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - temporal_block.mamba_weather.A_log	torch.Size([192, 32])	cuda:0	True
+2026-04-12 20:01:56,505 - INFO - temporal_block.mamba_weather.D	torch.Size([192])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - temporal_block.mamba_weather.in_proj.weight	torch.Size([384, 96])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - temporal_block.mamba_weather.conv1d.weight	torch.Size([192, 1, 4])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - temporal_block.mamba_weather.conv1d.bias	torch.Size([192])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - temporal_block.mamba_weather.x_proj.weight	torch.Size([70, 256])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - temporal_block.mamba_weather.dt_proj.weight	torch.Size([192, 6])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - temporal_block.mamba_weather.dt_proj.bias	torch.Size([192])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - temporal_block.mamba_weather.out_proj.weight	torch.Size([96, 192])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - temporal_block.mamba_weather.weather_proj.weight	torch.Size([64, 64])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - temporal_block.mamba_weather.weather_proj.bias	torch.Size([64])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - temporal_block.feed_forward.0.weight	torch.Size([384, 96])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - temporal_block.feed_forward.0.bias	torch.Size([384])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - temporal_block.feed_forward.3.weight	torch.Size([96, 384])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - temporal_block.feed_forward.3.bias	torch.Size([96])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - temporal_block.ff_norm.weight	torch.Size([96])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - temporal_block.ff_norm.bias	torch.Size([96])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - spatial_block.layer_norm.weight	torch.Size([96])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - spatial_block.layer_norm.bias	torch.Size([96])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - spatial_block.mamba_weather.A_log	torch.Size([192, 32])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - spatial_block.mamba_weather.D	torch.Size([192])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - spatial_block.mamba_weather.in_proj.weight	torch.Size([384, 96])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - spatial_block.mamba_weather.conv1d.weight	torch.Size([192, 1, 4])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - spatial_block.mamba_weather.conv1d.bias	torch.Size([192])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - spatial_block.mamba_weather.x_proj.weight	torch.Size([70, 256])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - spatial_block.mamba_weather.dt_proj.weight	torch.Size([192, 6])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - spatial_block.mamba_weather.dt_proj.bias	torch.Size([192])	cuda:0	True
+2026-04-12 20:01:56,506 - INFO - spatial_block.mamba_weather.out_proj.weight	torch.Size([96, 192])	cuda:0	True
+2026-04-12 20:01:56,507 - INFO - spatial_block.mamba_weather.weather_proj.weight	torch.Size([64, 64])	cuda:0	True
+2026-04-12 20:01:56,507 - INFO - spatial_block.mamba_weather.weather_proj.bias	torch.Size([64])	cuda:0	True
+2026-04-12 20:01:56,507 - INFO - spatial_block.feed_forward.0.weight	torch.Size([384, 96])	cuda:0	True
+2026-04-12 20:01:56,507 - INFO - spatial_block.feed_forward.0.bias	torch.Size([384])	cuda:0	True
+2026-04-12 20:01:56,507 - INFO - spatial_block.feed_forward.3.weight	torch.Size([96, 384])	cuda:0	True
+2026-04-12 20:01:56,507 - INFO - spatial_block.feed_forward.3.bias	torch.Size([96])	cuda:0	True
+2026-04-12 20:01:56,507 - INFO - spatial_block.ff_norm.weight	torch.Size([96])	cuda:0	True
+2026-04-12 20:01:56,507 - INFO - spatial_block.ff_norm.bias	torch.Size([96])	cuda:0	True
+2026-04-12 20:01:56,507 - INFO - temporal_proj.weight	torch.Size([12, 12])	cuda:0	True
+2026-04-12 20:01:56,507 - INFO - temporal_proj.bias	torch.Size([12])	cuda:0	True
+2026-04-12 20:01:56,507 - INFO - output_proj.weight	torch.Size([1, 96])	cuda:0	True
+2026-04-12 20:01:56,507 - INFO - output_proj.bias	torch.Size([1])	cuda:0	True
+2026-04-12 20:01:56,507 - INFO - final_layer_norm.weight	torch.Size([96])	cuda:0	True
+2026-04-12 20:01:56,507 - INFO - final_layer_norm.bias	torch.Size([96])	cuda:0	True
+2026-04-12 20:01:56,507 - INFO - Total parameter numbers: 562661
+2026-04-12 20:01:56,507 - INFO - You select `adam` optimizer.
+2026-04-12 20:01:56,507 - INFO - You select `cosineannealinglr` lr_scheduler.
+2026-04-12 20:01:56,508 - WARNING - Received none train loss func and will use the loss func defined in the model.
+2026-04-12 20:01:56,508 - INFO - Gradient accumulation steps: 2
+2026-04-12 20:01:56,508 - INFO - FP16 mixed precision training: True
+2026-04-12 20:01:56,508 - INFO - Using torch.cuda.amp.GradScaler for FP16 training
+2026-04-12 20:01:56,508 - INFO - Enabled cuDNN benchmark mode
+2026-04-12 20:01:56,508 - INFO - Enabled TF32 for faster training on Ampere GPUs
+2026-04-12 20:01:56,508 - INFO - Executor 已初始化 GPU 数据预加载功能（PEMSD4 专用）
+2026-04-12 20:01:56,508 - INFO - Start training ...
+2026-04-12 20:01:56,508 - INFO - num_batches:188
+2026-04-12 20:01:56,508 - INFO - 数据集较小，正在预加载 train 数据到 GPU 显存...
+2026-04-12 20:02:05,890 - INFO -   已预加载 10 batches...
+2026-04-12 20:02:15,263 - INFO -   已预加载 20 batches...
+2026-04-12 20:02:24,644 - INFO -   已预加载 30 batches...
+2026-04-12 20:02:34,087 - INFO -   已预加载 40 batches...
+2026-04-12 20:02:43,711 - INFO -   已预加载 50 batches...
+2026-04-12 20:02:53,370 - INFO -   已预加载 60 batches...
+2026-04-12 20:03:02,894 - INFO -   已预加载 70 batches...
+2026-04-12 20:03:12,303 - INFO -   已预加载 80 batches...
+2026-04-12 20:03:21,669 - INFO -   已预加载 90 batches...
+2026-04-12 20:03:31,062 - INFO -   已预加载 100 batches...
+2026-04-12 20:03:40,464 - INFO -   已预加载 110 batches...
+2026-04-12 20:03:49,878 - INFO -   已预加载 120 batches...
+2026-04-12 20:03:59,292 - INFO -   已预加载 130 batches...
+2026-04-12 20:04:08,835 - INFO -   已预加载 140 batches...
+2026-04-12 20:04:18,354 - INFO -   已预加载 150 batches...
+2026-04-12 20:04:27,839 - INFO -   已预加载 160 batches...
+2026-04-12 20:04:37,302 - INFO -   已预加载 170 batches...
+2026-04-12 20:04:46,795 - INFO -   已预加载 180 batches...
+2026-04-12 20:04:53,724 - INFO - 预加载完成: 188 batches (177.22s)
+Traceback (most recent call last):
+  File "/root/MCST-Mamba/run_model.py", line 41, in <module>
+    run_model(task=args.task, model_name=args.model, dataset_name=args.dataset,
+  File "/root/MCST-Mamba/libcity/pipeline/pipeline.py", line 250, in run_model
+    executor.train(train_data, valid_data)
+  File "/root/MCST-Mamba/libcity/executor/traffic_state_executor.py", line 500, in train
+    losses = self._train_epoch(train_dataloader, epoch_idx, self.loss_func)
+  File "/root/MCST-Mamba/libcity/executor/traffic_state_executor_optimized.py", line 121, in _train_epoch
+    loss = loss_func(batch)
+  File "/root/MCST-Mamba/libcity/model/traffic_speed_prediction/MCSTWeather.py", line 590, in calculate_loss
+    y_predicted = self.predict(batch)
+  File "/root/MCST-Mamba/libcity/model/traffic_speed_prediction/MCSTWeather.py", line 607, in predict
+    return self.forward(batch)  # forward 直接输出未来预测
+  File "/root/MCST-Mamba/libcity/model/traffic_speed_prediction/MCSTWeather.py", line 546, in forward
+    weather_embed = self._get_weather_embedding(batch_size, time_indices)
+  File "/root/MCST-Mamba/libcity/model/traffic_speed_prediction/MCSTWeather.py", line 453, in _get_weather_embedding
+    time_indices = base_indices + offsets  # (batch_size, input_window)
+  File "/miniconda3/envs/mcst/lib/python3.9/site-packages/torch/_tensor.py", line 970, in __array__
+    return self.numpy()
+TypeError: can't convert cuda:0 device type tensor to numpy. Use Tensor.cpu() to copy the tensor to host memory first.
+[?2004h(mcst) root@gpu-kvm:~/MCST-Mamba# 

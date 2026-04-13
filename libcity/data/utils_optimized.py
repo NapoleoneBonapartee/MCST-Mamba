@@ -16,13 +16,26 @@ def get_dataset(config):
     Returns:
         AbstractDataset: the loaded dataset
     """
+    dataset_class = config['dataset_class']
+    
+    # 特殊处理 MCSTWeatherDataset，避免导入整个 dataset_subclass 包（有环境兼容性问题）
+    if dataset_class == 'MCSTWeatherDataset':
+        import sys
+        import os
+        # 临时修改路径以直接导入
+        original_path = sys.path.copy()
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'dataset', 'dataset_subclass'))
+        from mcst_weather_dataset import MCSTWeatherDataset
+        sys.path = original_path  # 恢复路径
+        return MCSTWeatherDataset(config)
+    
     try:
         return getattr(importlib.import_module('libcity.data.dataset'),
-                       config['dataset_class'])(config)
+                       dataset_class)(config)
     except AttributeError:
         try:
             return getattr(importlib.import_module('libcity.data.dataset.dataset_subclass'),
-                           config['dataset_class'])(config)
+                           dataset_class)(config)
         except AttributeError:
             raise AttributeError('dataset_class is not found')
 

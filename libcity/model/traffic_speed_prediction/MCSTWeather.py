@@ -17,22 +17,33 @@ from libcity.model.traffic_speed_prediction.MambaWeather import SimpleMambaWeath
 
 
 class WeatherProcessor:
-    """天气数据处理器：处理缺失值、构建衍生特征"""
+    """天气数据处理器：处理缺失值、构建衍生特征，支持按时间特征查询"""
     
-    def __init__(self, weather_file_path):
+    def __init__(self, weather_file_path, steps_per_day=288):
         self.weather_file_path = weather_file_path
+        self.steps_per_day = steps_per_day  # 每天的时间步数（5分钟间隔=288）
         self.weather_df = None
         self.weather_features = None
         self.feature_names = None
+        # 时间到天气特征的映射
+        self.time_to_features = {}  # {(day_of_year, time_idx): feature_vector}
+        self.feature_array = None  # 按时间顺序排列的特征数组
+        self.start_time = None
+        self.end_time = None
+        self._logger = getLogger()
         
     def load_data(self):
-        """加载天气数据"""
+        """加载天气数据并构建时间映射"""
         if not os.path.exists(self.weather_file_path):
             raise FileNotFoundError(f"Weather file not found: {self.weather_file_path}")
         
         self.weather_df = pd.read_csv(self.weather_file_path, index_col=0, parse_dates=True)
+        self.start_time = self.weather_df.index.min()
+        self.end_time = self.weather_df.index.max()
+        
         self._process_missing_values()
         self._build_derived_features()
+        self._build_time_mapping()
         return self
     
     def _process_missing_values(self):
@@ -44,9 +55,9 @@ class WeatherProcessor:
             # 线性插值
             self.weather_df[col] = self.weather_df[col].interpolate(method='linear', limit_direction='both')
             # 前向填充（处理开头的缺失值）
-            self.weather_df[col] = self.weather_df[col].fillna(method='ffill')
+            self.weather_df[col] = self.weather_df[col].ffill()
             # 后向填充（处理末尾的缺失值）
-            self.weather_df[col] = self.weather_df[col].fillna(method='bfill')
+            self.weather_df[col] = self.weather_df[col].bfill()
             # 剩余缺失值用均值填充
             self.weather_df[col] = self.weather_df[col].fillna(self.weather_df[col].mean())
         
@@ -139,35 +150,50 @@ class WeatherProcessor:
         
         return self
     
-    def get_features_at_timestamps(self, timestamps):
+    def _build_time_mapping(self):
+        """构建时间到特征的映射，便于快速查询"""
+        # 将时间戳转换为 (day_of_year, time_idx) 的键
+        for i, timestamp in enumerate(self.weather_features.index):
+            day_of_year = timestamp.dayofyear
+            # 计算当天的时间索引（0 到 steps_per_day-1）
+            minutes_since_midnight = timestamp.hour * 60 + timestamp.minute
+            time_idx = int(minutes_since_midnight / (24 * 60 / self.steps_per_day))
+            time_idx = min(time_idx, self.steps_per_day - 1)  # 确保不越界
+            
+            key = (day_of_year, time_idx)
+            self.time_to_features[key] = self.weather_features.iloc[i].values
+        
+        # 也保存为数组形式，支持索引访问
+        self.feature_array = self.weather_features.values
+        self._logger.info(f"Built time mapping for {len(self.time_to_features)} timestamps")
+        
+    def get_features_by_time(self, day_of_year, time_idx):
         """
-        获取指定时间戳的天气特征
-        处理时间戳可能超出天气数据范围的情况
+        根据天数和时间索引获取天气特征
         Args:
-            timestamps: list or array of timestamps
+            day_of_year: 一年中的第几天 (1-366)
+            time_idx: 当天的时间索引 (0 到 steps_per_day-1)
         Returns:
-            numpy array of shape (len(timestamps), num_weather_features)
+            numpy array: 天气特征向量
         """
-        if self.weather_features is None:
-            raise ValueError("Weather features not built. Call load_data() first.")
+        key = (day_of_year, time_idx)
+        if key in self.time_to_features:
+            return self.time_to_features[key]
         
-        # 获取天气数据的时间范围
-        min_time = self.weather_features.index.min()
-        max_time = self.weather_features.index.max()
+        # 如果找不到，找到最近的时间
+        # 先尝试同一天的其他时间
+        for offset in [0] + list(range(1, self.steps_per_day)):
+            for sign in [1, -1]:
+                new_time_idx = time_idx + sign * offset
+                if 0 <= new_time_idx < self.steps_per_day:
+                    new_key = (day_of_year, new_time_idx)
+                    if new_key in self.time_to_features:
+                        return self.time_to_features[new_key]
         
-        # 将输入时间戳转换为 pandas DatetimeIndex
-        ts_index = pd.DatetimeIndex(timestamps)
-        
-        # 处理超出范围的时间戳：截断到有效范围
-        ts_index = ts_index.map(lambda x: min_time if x < min_time else (max_time if x > max_time else x))
-        
-        # 使用 get_indexer 方法找到最近的时间索引（支持 method='nearest'）
-        indices = self.weather_features.index.get_indexer(ts_index, method='nearest')
-        
-        # 处理 -1（未找到）的情况
-        indices = [idx if idx >= 0 else len(self.weather_features) - 1 for idx in indices]
-        
-        return self.weather_features.iloc[indices].values
+        # 如果还是找不到，返回默认特征（均值）
+        if self.feature_array is not None:
+            return self.feature_array.mean(axis=0)
+        return None
     
     def normalize_features(self, scaler=None):
         """标准化天气特征"""
@@ -362,12 +388,12 @@ class MCSTWeather(AbstractTrafficStateModel):
         else:
             self.dow_indices = None
     
-    def _get_weather_embedding(self, batch_size, timestamps=None):
+    def _get_weather_embedding(self, batch_size, time_idx_list=None):
         """
-        获取天气嵌入
+        获取天气嵌入 - 简化的实现，直接使用 tod_indices
         Args:
             batch_size: batch大小
-            timestamps: 可选，具体的时间戳列表
+            time_idx_list: 时间索引列表（可选，如果不提供则使用 tod_indices）
         Returns:
             weather_embed: (batch_size, input_window, num_nodes, weather_embed_dim)
         """
@@ -375,17 +401,33 @@ class MCSTWeather(AbstractTrafficStateModel):
             # 返回零向量
             return torch.zeros(batch_size, self.input_window, self.num_nodes, self.weather_embed_dim, device=self.device)
         
-        # 如果没有提供timestamps，生成默认时间序列（基于input_window）
-        if timestamps is None:
-            # 生成虚拟时间戳（这里简化处理，实际应从batch中获取）
-            # 使用时间索引作为替代
-            time_indices = torch.arange(self.input_window, device=self.device)
-            # 将索引转换为实际时间戳（假设5分钟间隔）
-            base_time = pd.Timestamp('2012-03-01')  # METR_LA默认起始时间
-            timestamps = [base_time + pd.Timedelta(minutes=int(i * 5)) for i in time_indices.cpu().numpy()]
+        # 获取时间索引列表
+        if time_idx_list is None or len(time_idx_list) == 0:
+            # 使用预计算的 tod_indices
+            if self.tod_indices is not None:
+                time_idx_list = self.tod_indices.cpu().tolist()
+            else:
+                time_idx_list = list(range(self.input_window))
         
-        # 获取天气特征
-        weather_features = self.weather_processor.get_features_at_timestamps(timestamps)
+        # 确保 time_idx_list 是整数列表
+        time_idx_list = [int(t) % self.steps_per_day for t in time_idx_list[:self.input_window]]
+        
+        # 如果长度不够，循环使用
+        while len(time_idx_list) < self.input_window:
+            time_idx_list.append(time_idx_list[-1] + 1 if time_idx_list else 0)
+        time_idx_list = time_idx_list[:self.input_window]
+        
+        # 根据时间索引获取天气特征
+        weather_features_list = []
+        for time_idx in time_idx_list:
+            # 使用 day_of_year=1 作为默认
+            features = self.weather_processor.get_features_by_time(
+                day_of_year=1,
+                time_idx=time_idx % self.steps_per_day
+            )
+            weather_features_list.append(features)
+        
+        weather_features = np.stack(weather_features_list, axis=0)  # (input_window, num_features)
         weather_tensor = torch.tensor(weather_features, dtype=torch.float32, device=self.device)
         
         # 投影到嵌入维度
@@ -415,13 +457,19 @@ class MCSTWeather(AbstractTrafficStateModel):
         x = batch['X'].to(self.device)  # (B, input_window, num_nodes, feature_dim)
         batch_size = x.shape[0]
         
-        # 获取时间戳（如果有）- Batch对象使用.data字典访问
-        timestamps = batch.data.get('timestamps', None)
-        if(timestamps is None):
-            self._logger.info('MCSTWeather, timestamps is None.')
-        else:
-            self._logger.info('MCSTWeather, timestamps is not None.')
-            
+        # 尝试从 batch 获取时间索引（如果 Dataset 提供了）
+        time_idx_list = None
+        if hasattr(batch, 'data'):
+            time_idx_raw = batch.data.get('time_idx', None)
+            if time_idx_raw is not None:
+                # 转换为列表
+                if isinstance(time_idx_raw, torch.Tensor):
+                    time_idx_list = time_idx_raw.cpu().flatten().tolist()
+                elif isinstance(time_idx_raw, np.ndarray):
+                    time_idx_list = time_idx_raw.flatten().tolist()
+                elif isinstance(time_idx_raw, list):
+                    time_idx_list = time_idx_raw
+        
         # 特征提取
         features = []
         
@@ -456,7 +504,7 @@ class MCSTWeather(AbstractTrafficStateModel):
         x = self.mamba_input_proj(x)  # (B, L, N, d_model)
         
         # 获取天气嵌入 (B, L, N, weather_embed_dim)
-        weather_embed = self._get_weather_embedding(batch_size, timestamps)
+        weather_embed = self._get_weather_embedding(batch_size, time_idx_list)
         
         # 时序处理：每个节点独立处理
         # 重塑为 (N, B*L, d_model) 以便高效处理
