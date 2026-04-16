@@ -36,6 +36,25 @@
                 "PYTHONPATH": "${workspaceFolder}"
             },
             "justMyCode": false
+        },
+        {
+            "name": "Debug Train_MCSTWeather METR_LA",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/run_model.py",
+            "args": [
+                "--task", "traffic_state_pred",
+                "--model", "MCSTWeather",
+                "--dataset", "METR_LA",
+                "--exp_id", "W001",
+                "--train","False"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "justMyCode": false
         }
     ]
 }

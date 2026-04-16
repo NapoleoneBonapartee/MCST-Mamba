@@ -323,6 +323,7 @@ class TrafficStateExecutor(AbstractExecutor):
 
         with torch.no_grad():
             self.model.eval()
+            losses = []
             for batch_idx, batch in enumerate(test_dataloader):
                 try:
                     # 1. Predict and Scale
@@ -332,6 +333,10 @@ class TrafficStateExecutor(AbstractExecutor):
                     y_true_scaled = self._scaler.inverse_transform(batch['y'][..., :self.output_dim])
                     y_pred_scaled = self._scaler.inverse_transform(output[..., :self.output_dim])
                     
+                    losses = loss.masked_mae_torch(y_pred_scaled, y_true_scaled, 0)
+                    if (batch_idx % self.log_every) == 0:
+                        self._logger.info(f"Batch [{batch_idx}/{total_batches}], val_loss: {losses}")
+
                     # Ensure outputs are numpy for visualization and aggregation
                     y_true_np = y_true_scaled.cpu().numpy()
                     y_pred_np = y_pred_scaled.cpu().numpy()
@@ -353,6 +358,7 @@ class TrafficStateExecutor(AbstractExecutor):
                 # 3. Aggregate Results
                 y_truths.append(y_true_np)
                 y_preds.append(y_pred_np)
+
 
         # Log batch-level failures
         if prediction_failed_batches > 0:
@@ -389,8 +395,10 @@ class TrafficStateExecutor(AbstractExecutor):
         test_result = None
         try:
             self.evaluator.clear()
-            # Ensure data passed to evaluator is torch tensor
-            self.evaluator.collect({'y_true': torch.tensor(y_truths_concat), 'y_pred': torch.tensor(y_preds_concat)})
+            # Ensure data passed to evaluator is torch tensor with correct dtype
+            y_true_tensor = torch.tensor(y_truths_concat, dtype=torch.float32)
+            y_pred_tensor = torch.tensor(y_preds_concat, dtype=torch.float32)
+            self.evaluator.collect({'y_true': y_true_tensor, 'y_pred': y_pred_tensor})
             test_result = self.evaluator.save_result(self.evaluate_res_dir)
             self._logger.info(f"Evaluation metrics calculated and saved to {self.evaluate_res_dir}")
         except Exception as e:

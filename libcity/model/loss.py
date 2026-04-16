@@ -100,15 +100,17 @@ def masked_rmse_torch(preds, labels, null_val=np.nan, mask_val=None):
 
 
 def r2_score_torch(preds, labels):
-    preds = preds.cpu().flatten()
-    labels = labels.cpu().flatten()
-    return r2_score(labels, preds)
+    preds = preds.cpu().flatten().numpy()
+    labels = labels.cpu().flatten().numpy()
+    result = r2_score(labels, preds)
+    return result
 
 
 def explained_variance_score_torch(preds, labels):
-    preds = preds.cpu().flatten()
-    labels = labels.cpu().flatten()
-    return explained_variance_score(labels, preds)
+    preds = preds.cpu().flatten().numpy()
+    labels = labels.cpu().flatten().numpy()
+    result = explained_variance_score(labels, preds)
+    return result
 
 
 def masked_rmse_np(preds, labels, null_val=np.nan):

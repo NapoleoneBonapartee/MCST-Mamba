@@ -173,11 +173,9 @@ class TrafficStateEvaluator(AbstractEvaluator):
                             loss.masked_mape_torch(y_pred[:, i - 1], y_true[:, i - 1]).item())
                     elif metric == 'R2':
                         self.intermediate_result[metric + '@' + str(i)].append(
-                            # loss.r2_score_torch(y_pred[:, i - 1], y_true[:, i - 1]).item())
                             loss.r2_score_torch(y_pred[:, i - 1], y_true[:, i - 1]))
                     elif metric == 'EVAR':
                         self.intermediate_result[metric + '@' + str(i)].append(
-                            # loss.explained_variance_score_torch(y_pred[:, i - 1], y_true[:, i - 1]).item())
                             loss.explained_variance_score_torch(y_pred[:, i - 1], y_true[:, i - 1]))
                         
         else:
