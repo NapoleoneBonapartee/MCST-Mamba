@@ -223,3 +223,88 @@
 2026-04-16 23:09:07,269 - INFO - Epoch [6/300] train_loss: 3.2372, val_loss: 3.1817, lr: 0.000872, 35.33s
 2026-04-16 23:09:07,293 - INFO - Saved model at 6
 2026-04-16 23:09:07,293 - INFO - Val loss decrease from 3.2373 to 3.1817, saving to ./libcity/cache/W002/model_cache/MCSTWeather_METR_LA_epoch6.tar
+2026-04-16 23:09:41,218 - INFO - epoch complete!
+2026-04-16 23:09:41,218 - INFO - evaluating now!
+2026-04-16 23:09:42,479 - INFO - Epoch [7/300] train_loss: 3.1831, val_loss: 3.1879, lr: 0.000835, 35.19s
+2026-04-16 23:10:16,524 - INFO - epoch complete!
+2026-04-16 23:10:16,524 - INFO - evaluating now!
+2026-04-16 23:10:17,651 - INFO - Epoch [8/300] train_loss: 3.1494, val_loss: 3.1274, lr: 0.000794, 35.17s
+2026-04-16 23:10:17,671 - INFO - Saved model at 8
+2026-04-16 23:10:17,671 - INFO - Val loss decrease from 3.1817 to 3.1274, saving to ./libcity/cache/W002/model_cache/MCSTWeather_METR_LA_epoch8.tar
+2026-04-16 23:10:51,522 - INFO - epoch complete!
+2026-04-16 23:10:51,523 - INFO - evaluating now!
+2026-04-16 23:10:52,685 - INFO - Epoch [9/300] train_loss: 3.1204, val_loss: 3.1121, lr: 0.000750, 35.01s
+2026-04-16 23:10:52,708 - INFO - Saved model at 9
+2026-04-16 23:10:52,709 - INFO - Val loss decrease from 3.1274 to 3.1121, saving to ./libcity/cache/W002/model_cache/MCSTWeather_METR_LA_epoch9.tar
+2026-04-16 23:11:27,336 - INFO - epoch complete!
+2026-04-16 23:11:27,336 - INFO - evaluating now!
+2026-04-16 23:11:28,487 - INFO - Epoch [10/300] train_loss: 3.0829, val_loss: 3.0805, lr: 0.000703, 35.78s
+2026-04-16 23:11:28,510 - INFO - Saved model at 10
+2026-04-16 23:11:28,510 - INFO - Val loss decrease from 3.1121 to 3.0805, saving to ./libcity/cache/W002/model_cache/MCSTWeather_METR_LA_epoch10.tar
+2026-04-16 23:12:02,877 - INFO - epoch complete!
+2026-04-16 23:12:02,877 - INFO - evaluating now!
+2026-04-16 23:12:04,256 - INFO - Epoch [11/300] train_loss: 3.0540, val_loss: 3.0775, lr: 0.000655, 35.75s
+2026-04-16 23:12:04,277 - INFO - Saved model at 11
+2026-04-16 23:12:04,277 - INFO - Val loss decrease from 3.0805 to 3.0775, saving to ./libcity/cache/W002/model_cache/MCSTWeather_METR_LA_epoch11.tar
+2026-04-16 23:12:38,615 - INFO - epoch complete!
+2026-04-16 23:12:38,615 - INFO - evaluating now!
+2026-04-16 23:12:39,759 - INFO - Epoch [12/300] train_loss: 3.0345, val_loss: 3.0508, lr: 0.000604, 35.48s
+2026-04-16 23:12:39,781 - INFO - Saved model at 12
+2026-04-16 23:12:39,782 - INFO - Val loss decrease from 3.0775 to 3.0508, saving to ./libcity/cache/W002/model_cache/MCSTWeather_METR_LA_epoch12.tar
+2026-04-16 23:13:14,016 - INFO - epoch complete!
+2026-04-16 23:13:14,017 - INFO - evaluating now!
+2026-04-16 23:13:15,357 - INFO - Epoch [13/300] train_loss: 3.0142, val_loss: 3.0703, lr: 0.000552, 35.57s
+2026-04-16 23:13:49,608 - INFO - epoch complete!
+2026-04-16 23:13:49,608 - INFO - evaluating now!
+2026-04-16 23:13:50,734 - INFO - Epoch [14/300] train_loss: 2.9977, val_loss: 3.0592, lr: 0.000500, 35.37s
+2026-04-16 23:14:24,669 - INFO - epoch complete!
+2026-04-16 23:14:24,669 - INFO - evaluating now!
+2026-04-16 23:14:25,794 - INFO - Epoch [15/300] train_loss: 2.9819, val_loss: 3.0658, lr: 0.000448, 35.06s
+2026-04-16 23:14:59,633 - INFO - epoch complete!
+2026-04-16 23:14:59,633 - INFO - evaluating now!
+2026-04-16 23:15:00,763 - INFO - Epoch [16/300] train_loss: 2.9685, val_loss: 3.0419, lr: 0.000396, 34.97s
+2026-04-16 23:15:00,784 - INFO - Saved model at 16
+2026-04-16 23:15:00,785 - INFO - Val loss decrease from 3.0508 to 3.0419, saving to ./libcity/cache/W002/model_cache/MCSTWeather_METR_LA_epoch16.tar
+2026-04-16 23:15:35,148 - INFO - epoch complete!
+2026-04-16 23:15:35,148 - INFO - evaluating now!
+2026-04-16 23:15:36,294 - INFO - Epoch [17/300] train_loss: 2.9567, val_loss: 3.0494, lr: 0.000345, 35.51s
+2026-04-16 23:16:10,856 - INFO - epoch complete!
+2026-04-16 23:16:10,857 - INFO - evaluating now!
+2026-04-16 23:16:12,001 - INFO - Epoch [18/300] train_loss: 2.9462, val_loss: 3.0614, lr: 0.000297, 35.71s
+2026-04-16 23:16:46,339 - INFO - epoch complete!
+2026-04-16 23:16:46,340 - INFO - evaluating now!
+2026-04-16 23:16:47,482 - INFO - Epoch [19/300] train_loss: 2.9385, val_loss: 3.0661, lr: 0.000250, 35.48s
+2026-04-16 23:17:21,552 - INFO - epoch complete!
+2026-04-16 23:17:21,552 - INFO - evaluating now!
+2026-04-16 23:17:22,816 - INFO - Epoch [20/300] train_loss: 2.9301, val_loss: 3.0438, lr: 0.000206, 35.33s
+2026-04-16 23:17:56,898 - INFO - epoch complete!
+2026-04-16 23:17:56,899 - INFO - evaluating now!
+2026-04-16 23:17:58,040 - INFO - Epoch [21/300] train_loss: 2.9227, val_loss: 3.0472, lr: 0.000165, 35.22s
+2026-04-16 23:18:32,475 - INFO - epoch complete!
+2026-04-16 23:18:32,476 - INFO - evaluating now!
+2026-04-16 23:18:33,814 - INFO - Epoch [22/300] train_loss: 2.9167, val_loss: 3.0440, lr: 0.000128, 35.77s
+2026-04-16 23:19:08,032 - INFO - epoch complete!
+2026-04-16 23:19:08,033 - INFO - evaluating now!
+2026-04-16 23:19:09,182 - INFO - Epoch [23/300] train_loss: 2.9104, val_loss: 3.0357, lr: 0.000095, 35.37s
+2026-04-16 23:19:09,206 - INFO - Saved model at 23
+2026-04-16 23:19:09,206 - INFO - Val loss decrease from 3.0419 to 3.0357, saving to ./libcity/cache/W002/model_cache/MCSTWeather_METR_LA_epoch23.tar
+2026-04-16 23:19:43,130 - INFO - epoch complete!
+2026-04-16 23:19:43,130 - INFO - evaluating now!
+2026-04-16 23:19:44,463 - INFO - Epoch [24/300] train_loss: 2.9054, val_loss: 3.0301, lr: 0.000067, 35.26s
+2026-04-16 23:19:44,487 - INFO - Saved model at 24
+2026-04-16 23:19:44,487 - INFO - Val loss decrease from 3.0357 to 3.0301, saving to ./libcity/cache/W002/model_cache/MCSTWeather_METR_LA_epoch24.tar
+2026-04-16 23:20:19,103 - INFO - epoch complete!
+2026-04-16 23:20:19,104 - INFO - evaluating now!
+2026-04-16 23:20:20,253 - INFO - Epoch [25/300] train_loss: 2.9013, val_loss: 3.0370, lr: 0.000043, 35.77s
+2026-04-16 23:20:54,351 - INFO - epoch complete!
+2026-04-16 23:20:54,352 - INFO - evaluating now!
+2026-04-16 23:20:55,479 - INFO - Epoch [26/300] train_loss: 2.8986, val_loss: 3.0358, lr: 0.000024, 35.23s
+2026-04-16 23:21:29,769 - INFO - epoch complete!
+2026-04-16 23:21:29,770 - INFO - evaluating now!
+2026-04-16 23:21:30,913 - INFO - Epoch [27/300] train_loss: 2.8947, val_loss: 3.0357, lr: 0.000011, 35.43s
+2026-04-16 23:22:04,911 - INFO - epoch complete!
+2026-04-16 23:22:04,912 - INFO - evaluating now!
+2026-04-16 23:22:06,253 - INFO - Epoch [28/300] train_loss: 2.8937, val_loss: 3.0387, lr: 0.000003, 35.34s
+2026-04-16 23:22:40,841 - INFO - epoch complete!
+2026-04-16 23:22:40,841 - INFO - evaluating now!
+2026-04-16 23:22:42,015 - INFO - Epoch [29/300] train_loss: 2.8923, val_loss: 3.0352, lr: 0.000000, 35.76s
