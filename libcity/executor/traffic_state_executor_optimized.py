@@ -88,10 +88,7 @@ class TrafficStateExecutorOptimized(TrafficStateExecutor):
 
 
     def _train_epoch(self, train_dataloader, epoch_idx, loss_func=None):
-        """
-        Optimized training epoch with gradient accumulation and mixed precision
-        针对 PEMSD4：首次调用时预加载全量数据到 GPU，后续 epoch 零延迟读取
-        """
+
         self.model.train()
         loss_func = loss_func if loss_func is not None else self.model.calculate_loss
         losses = []
@@ -159,10 +156,7 @@ class TrafficStateExecutorOptimized(TrafficStateExecutor):
         return losses
 
     def _valid_epoch(self, eval_dataloader, epoch_idx, loss_func=None):
-        """
-        Optimized validation epoch with mixed precision inference
-        针对 PEMSD4：预加载验证数据到 GPU
-        """
+
         # 预加载验证数据（首次调用）
         if self.gpu_valid_data is None:
             self.preload_to_gpu(eval_dataloader, 'valid')

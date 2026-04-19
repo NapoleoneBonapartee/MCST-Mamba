@@ -2,52 +2,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug MCSTWeather METR_LA",
+            "name": "Debug MambaWeather METR_LA",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/run_model.py",
             "args": [
                 "--task", "traffic_state_pred",
-                "--model", "MCSTWeather",
+                "--model", "MambaWeather_Optimized",
                 "--dataset", "METR_LA",
-                "--exp_id", "W001"
-            ],
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}"
-            },
-            "justMyCode": false
-        },
-        {
-            "name": "Debug MCSTMamba METR_LA",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/run_model.py",
-            "args": [
-                "--task", "traffic_state_pred",
-                "--model", "MCSTMamba",
-                "--dataset", "METR_LA",
-                "--exp_id", "MCST001"
-            ],
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}"
-            },
-            "justMyCode": false
-        },
-        {
-            "name": "Debug Train_MCSTWeather METR_LA",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/run_model.py",
-            "args": [
-                "--task", "traffic_state_pred",
-                "--model", "MCSTWeather",
-                "--dataset", "METR_LA",
-                "--exp_id", "W001",
-                "--train","False"
+                "--exp_id", "Debug001"
             ],
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
