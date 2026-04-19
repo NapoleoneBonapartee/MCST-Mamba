@@ -103,8 +103,7 @@
     },
     "traffic_state_pred": {
         "allowed_model": [
-            "MambaWeather_Optimized",
-            "MCSTMamba_optimized",
+            "MambaWeather",
             "DCRNN",
             "STGCN",
             "GWNET",
@@ -609,17 +608,7 @@
             "executor": "TrafficStateExecutor",
             "evaluator": "TrafficStateEvaluator"
         },
-        "MCSTMamba": {
-            "dataset_class": "TrafficStatePointDataset",
-            "executor": "TrafficStateExecutorOptimized",
-            "evaluator": "TrafficStateEvaluator"
-        },
-        "MCSTMamba_optimized":{
-            "dataset_class": "TrafficStatePointDataset",
-            "executor": "TrafficStateExecutorOptimized",
-            "evaluator": "TrafficStateEvaluator"
-        },
-        "MambaWeather_Optimized":{
+        "MambaWeather":{
             "dataset_class": "TrafficStatePointDataset",
             "executor": "TrafficStateExecutorOptimized",
             "evaluator": "TrafficStateEvaluator"

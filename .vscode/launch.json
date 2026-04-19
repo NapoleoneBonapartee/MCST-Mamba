@@ -8,7 +8,7 @@
             "program": "${workspaceFolder}/run_model.py",
             "args": [
                 "--task", "traffic_state_pred",
-                "--model", "MambaWeather_Optimized",
+                "--model", "MambaWeather",
                 "--dataset", "METR_LA",
                 "--exp_id", "Debug001"
             ],
