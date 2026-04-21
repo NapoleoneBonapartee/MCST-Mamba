@@ -585,7 +585,7 @@ class MambaWeather(AbstractTrafficStateModel):
         y_predicted = self._scaler.inverse_transform(y_predicted[..., :self.output_dim])
         
         # 计算 masked MAE 损失
-        return loss.masked_mae_torch(y_predicted, y_true, 0)
+        return loss.masked_mse_torch(y_predicted, y_true)
     
     def predict(self, batch):
         """

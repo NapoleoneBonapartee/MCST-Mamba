@@ -323,7 +323,9 @@ class TrafficStateExecutor(AbstractExecutor):
 
         with torch.no_grad():
             self.model.eval()
-            losses = []
+            batch_mae_list = []
+            batch_rmse_list = []
+            batch_mape_list = []
             for batch_idx, batch in enumerate(test_dataloader):
                 try:
                     # 1. Predict and Scale
@@ -333,9 +335,20 @@ class TrafficStateExecutor(AbstractExecutor):
                     y_true_scaled = self._scaler.inverse_transform(batch['y'][..., :self.output_dim])
                     y_pred_scaled = self._scaler.inverse_transform(output[..., :self.output_dim])
                     
-                    losses = loss.masked_mae_torch(y_pred_scaled, y_true_scaled, 0)
+                    # 计算多种损失（不将0视作无效值，使用默认参数）
+                    mae_loss = loss.masked_mae_torch(y_pred_scaled, y_true_scaled.clone())
+                    rmse_loss = loss.masked_rmse_torch(y_pred_scaled, y_true_scaled.clone())
+                    mape_loss = loss.masked_mape_torch(y_pred_scaled, y_true_scaled.clone())
+                    
+                    batch_mae_list.append(mae_loss.item())
+                    batch_rmse_list.append(rmse_loss.item())
+                    batch_mape_list.append(mape_loss.item())
+                    
                     if (batch_idx % self.log_every) == 0:
-                        self._logger.info(f"Batch [{batch_idx}/{total_batches}], val_loss: {losses}")
+                        self._logger.info(
+                            f"Batch [{batch_idx}/{total_batches}], "
+                            f"MAE: {mae_loss.item():.6f}, RMSE: {rmse_loss.item():.6f}, MAPE: {mape_loss.item():.6f}"
+                        )
 
                     # Ensure outputs are numpy for visualization and aggregation
                     y_true_np = y_true_scaled.cpu().numpy()
@@ -365,6 +378,16 @@ class TrafficStateExecutor(AbstractExecutor):
             self._logger.warning(f"Prediction/scaling failed for {prediction_failed_batches}/{total_batches} batches.")
         if visualization_failed_batches > 0:
             self._logger.warning(f"Visualization failed or errored for {visualization_failed_batches}/{total_batches} batches.")
+        
+        # 输出各类型loss的均值
+        if batch_mae_list:
+            mean_mae = np.mean(batch_mae_list)
+            mean_rmse = np.mean(batch_rmse_list)
+            mean_mape = np.mean(batch_mape_list)
+            self._logger.info(
+                f"Evaluation mean loss -> MAE: {mean_mae:.6f}, "
+                f"RMSE: {mean_rmse:.6f}, MAPE: {mean_mape:.6f}"
+            )
 
         # Check if any results were collected
         if not y_truths or not y_preds:
