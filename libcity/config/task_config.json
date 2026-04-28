@@ -103,6 +103,7 @@
     },
     "traffic_state_pred": {
         "allowed_model": [
+            "SimpleMambaWeatherBlock",
             "MambaWeather",
             "DCRNN",
             "STGCN",
@@ -180,7 +181,9 @@
             "ASTGNNCommon",
             "FreTS",
             "Mamba",
-            "MCSTMamba"
+            "MCSTMamba",
+            "SimpleMamba",
+            "OnlyMamba"
         ],
         "allowed_dataset": [
             "METR_LA",
@@ -223,6 +226,21 @@
             "CHICAGO_RISK",
             "NYCTAXI20140112_FLOW"
         ],
+        "OnlyMamba": {
+            "dataset_class": "TrafficStatePointDataset",
+            "executor": "TrafficStateExecutorOptimized",
+            "evaluator": "TrafficStateEvaluator"
+        },
+        "SimpleMamba": {
+            "dataset_class": "TrafficStatePointDataset",
+            "executor": "TrafficStateExecutorOptimized",
+            "evaluator": "TrafficStateEvaluator"
+        },
+        "MambaWeather":{
+            "dataset_class": "TrafficStatePointDataset",
+            "executor": "TrafficStateExecutorOptimized",
+            "evaluator": "TrafficStateEvaluator"
+        },
         "FreTS": {
             "dataset_class": "TrafficStatePointDataset",
             "executor": "TrafficStateExecutor",
@@ -606,11 +624,6 @@
         "MambaCoder": {
             "dataset_class": "TrafficStatePointDataset",
             "executor": "TrafficStateExecutor",
-            "evaluator": "TrafficStateEvaluator"
-        },
-        "MambaWeather":{
-            "dataset_class": "TrafficStatePointDataset",
-            "executor": "TrafficStateExecutorOptimized",
             "evaluator": "TrafficStateEvaluator"
         }
     },

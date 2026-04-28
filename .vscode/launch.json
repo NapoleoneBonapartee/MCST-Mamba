@@ -2,6 +2,24 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug Mamba METR_LA",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/run_model.py",
+            "args": [
+                "--task", "traffic_state_pred",
+                "--model", "SimpleMambaWeatherBlock",
+                "--dataset", "METR_LA",
+                "--exp_id", "Debug002"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "justMyCode": false
+        },
+        {
             "name": "Debug MambaWeather METR_LA",
             "type": "python",
             "request": "launch",

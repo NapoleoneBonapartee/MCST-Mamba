@@ -93,7 +93,6 @@ class TrafficStateExecutorOptimized(TrafficStateExecutor):
         loss_func = loss_func if loss_func is not None else self.model.calculate_loss
         losses = []
         
-        # ========== PEMSD4 懒加载逻辑 ==========
         if self.gpu_train_data is None:
             self.preload_to_gpu(train_dataloader, 'train')
         

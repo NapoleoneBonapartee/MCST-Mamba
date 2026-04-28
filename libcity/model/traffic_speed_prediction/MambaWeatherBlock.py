@@ -9,6 +9,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch import Tensor
 from einops import rearrange, repeat
+from libcity.model import loss
 
 from mamba_ssm.ops.selective_scan_interface import selective_scan_fn, mamba_inner_fn
 
@@ -28,7 +29,7 @@ class MambaWeatherBlock(nn.Module):
     
     def __init__(
         self,
-        d_model,
+        d_model=96,
         d_state=16,
         d_conv=4,
         expand=2,
@@ -123,15 +124,23 @@ class MambaWeatherBlock(nn.Module):
         # 天气嵌入投影（如果需要对齐维度）
         self.weather_proj = nn.Linear(weather_embed_dim, weather_embed_dim, **factory_kwargs)
         
-    def forward(self, hidden_states, weather_embed, inference_params=None):
+    def forward(self, hidden_states, weather_embed=None, inference_params=None):
         """
         Args:
             hidden_states: (B, L, D) - 输入序列
-            weather_embed: (B, L, D_w) - 天气嵌入，与输入序列对齐
+            weather_embed: (B, L, D_w) - 天气嵌入，与输入序列对齐，默认为None时自动创建零向量
         Returns:
             same shape as hidden_states: (B, L, D)
         """
         batch, seqlen, dim = hidden_states.shape
+        
+        # 如果 weather_embed 为 None，创建零向量作为默认值
+        if weather_embed is None:
+            weather_embed = torch.zeros(
+                batch, seqlen, self.weather_embed_dim,
+                dtype=hidden_states.dtype,
+                device=hidden_states.device
+            )
         
         # 输入投影
         xz = rearrange(
@@ -204,7 +213,7 @@ class MambaWeatherBlock(nn.Module):
 class SimpleMambaWeatherBlock(nn.Module):
     """Simple MambaWeather block with layer normalization and residual connections"""
     
-    def __init__(self, d_model, d_state, d_conv, expand, weather_embed_dim, dropout=0.1):
+    def __init__(self, d_model=96, d_state=32, d_conv=4, expand=2, weather_embed_dim=None, dropout=0.1):
         super().__init__()
         self.layer_norm = nn.LayerNorm(d_model)
         self.mamba_weather = MambaWeatherBlock(
@@ -224,12 +233,21 @@ class SimpleMambaWeatherBlock(nn.Module):
         self.ff_norm = nn.LayerNorm(d_model)
         self.ff_dropout = nn.Dropout(dropout)
     
-    def forward(self, x, weather_embed):
+    def forward(self, x, weather_embed=None):
         """
         Args:
             x: (B, L, D) - 输入序列
-            weather_embed: (B, L, D_w) - 天气嵌入
+            weather_embed: (B, L, D_w) - 天气嵌入，默认为None时自动创建零向量
         """
+        # 如果 weather_embed 为 None，创建零向量作为默认值
+        if weather_embed is None:
+            batch_size, seq_len = x.shape[0], x.shape[1]
+            weather_embed = torch.zeros(
+                batch_size, seq_len, self.weather_embed_dim,
+                dtype=x.dtype,
+                device=x.device
+            )
+        
         # Mamba block with residual
         residual = x
         x = self.layer_norm(x)
@@ -245,3 +263,16 @@ class SimpleMambaWeatherBlock(nn.Module):
         x = x + residual
         
         return x
+    
+    def calculate_loss(self, batch):
+        y_true = batch['y']
+        if hasattr(y_true, 'to'):
+            y_true = y_true.to(self.device)
+        y_predicted = self.forward(batch['X'])
+        
+        # 反归一化
+        y_true = self._scaler.inverse_transform(y_true[..., :self.output_dim])
+        y_predicted = self._scaler.inverse_transform(y_predicted[..., :self.output_dim])
+        
+        # 计算损失
+        return loss.masked_mae_torch(y_predicted, y_true)

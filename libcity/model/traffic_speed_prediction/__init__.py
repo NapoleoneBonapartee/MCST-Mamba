@@ -25,9 +25,11 @@ from libcity.model.traffic_speed_prediction.STAEformer import STAEformer
 from libcity.model.traffic_speed_prediction.TESTAM import TESTAM
 from libcity.model.traffic_speed_prediction.MegaCRN import MegaCRN
 from libcity.model.traffic_speed_prediction.MambaWeatherBlock import MambaWeatherBlock, SimpleMambaWeatherBlock
-from libcity.model.traffic_speed_prediction.MambaWeather import MambaWeather
+from libcity.model.traffic_speed_prediction.MambaWeather import MambaWeather, SimpleMamba, OnlyMamba
 
 __all__ = [
+    "OnlyMamba",
+    "SimpleMamba",
     "MambaWeatherBlock",
     "MambaWeather",
     "SimpleMambaWeatherBlock",
