@@ -493,12 +493,12 @@ class MambaWeather(AbstractTrafficStateModel):
     
     def forward(self, batch):
         """
-        前向传播
         Args:
             batch: Batch对象，包含 'X' 和其他特征
         Returns:
             预测结果: (batch_size, output_window, num_nodes, output_dim)
         """
+        
         # 获取输入
         x = batch['X'].to(self.device)  # (B, input_window, num_nodes, feature_dim)
         batch_size = x.shape[0]
@@ -536,6 +536,11 @@ class MambaWeather(AbstractTrafficStateModel):
         if self.adaptive_embedding_dim > 0:
             adp_emb = self.adaptive_embedding.unsqueeze(0).expand(batch_size, -1, -1, -1)
             features.append(adp_emb)
+
+        # 获取天气嵌入 (B, L, N, weather_embed_dim)
+        weather_embed = self._get_weather_embedding(batch_size, timestamps)
+        
+        # features.append(weather_embed)
         
         # 拼接所有特征
         x = torch.cat(features, dim=-1)  # (B, L, N, model_dim)
@@ -543,29 +548,19 @@ class MambaWeather(AbstractTrafficStateModel):
         # 投影到 Mamba 维度
         x = self.mamba_input_proj(x)  # (B, L, N, d_model)
         
-        # 获取天气嵌入 (B, L, N, weather_embed_dim)
-        weather_embed = self._get_weather_embedding(batch_size, timestamps)
-        
         # 时序处理：每个节点独立处理
         # 重塑为 (N, B*L, d_model) 
         x_temporal = x.permute(2, 0, 1, 3).reshape(self.num_nodes, batch_size * self.input_window, self.d_model)
-        
-        # 天气嵌入也需要相应重塑
-        w_temporal = weather_embed.permute(2, 0, 1, 3).reshape(self.num_nodes, batch_size * self.input_window, self.weather_embed_dim)
-
-        x_temporal = self.temporal_block(x_temporal, w_temporal)
+        x_temporal = self.temporal_block(x_temporal)
         
         # 重塑回 (B, L, N, d_model)
         x_temporal = x_temporal.reshape(self.num_nodes, batch_size, self.input_window, self.d_model).permute(1, 2, 0, 3)
         
-        # 空间处理
+        # # 空间处理
         x_spatial = x.permute(1, 0, 2, 3)  # [input_window, batch_size, num_nodes, d_model]
-        x_spatial = x_spatial.reshape(self.input_window, batch_size * self.num_nodes, self.d_model)
-        # 为空间块创建正确的天气嵌入形状
-        w_spatial = weather_embed.permute(1, 0, 2, 3).reshape(self.input_window, batch_size * self.num_nodes, self.weather_embed_dim)
-        x_spatial = self.spatial_block(x_spatial, w_spatial)
-        x_spatial = x_spatial.reshape(self.input_window, batch_size, self.num_nodes, self.d_model)
-        x_spatial = x_spatial.permute(1, 0, 2, 3)
+        x_spatial = x_spatial.reshape(self.input_window, batch_size * self.num_nodes, -1)
+        x_spatial = self.spatial_block(x_spatial)
+        x_spatial = x_spatial.reshape(self.input_window, batch_size, self.num_nodes, self.d_model).permute(1, 0, 2, 3)
         
         # 组合时序和空间输出
         if self.fusion_mode == 'adaptive':
@@ -580,12 +575,11 @@ class MambaWeather(AbstractTrafficStateModel):
         # x_out = self.final_layer_norm(x_temporal)
         # x_out = self.output_proj(x_out) 
         
-        # 时序投影：将 input_window 映射到 output_window
-        # 转置为 (B, N, output_dim, input_window) -> 投影 -> 转置回 (B, output_window, N, output_dim)
-        x_out = x_out.permute(0, 2, 3, 1)  # (B, N, output_dim, input_window)
-        x_out = self.temporal_proj(x_out)  # (B, N, output_dim, output_window)
-        x_out = x_out.permute(0, 3, 1, 2)  # (B, output_window, N, output_dim)
-        
+        # # 时序投影：将 input_window 映射到 output_window
+        # x_out = x_out.permute(0, 2, 3, 1)  # (B, N, output_dim, input_window)
+        # x_out = self.temporal_proj(x_out)  # (B, N, output_dim, output_window)
+        # x_out = x_out.permute(0, 3, 1, 2)  # (B, output_window, N, output_dim)
+
         return x_out  # 直接预测未来 output_window 步
     
     def calculate_loss(self, batch):
@@ -603,13 +597,6 @@ class MambaWeather(AbstractTrafficStateModel):
         return loss.masked_mae_torch(y_predicted, y_true, 0)
 
     def predict(self, batch):
-        """
-        直接预测未来 output_window 步
-        Args:
-            batch: 包含 'X' 的 Batch 对象
-        Returns:
-            预测结果: (batch_size, output_window, num_nodes, output_dim)
-        """
         return self.forward(batch)  # forward 直接输出未来预测
 
 

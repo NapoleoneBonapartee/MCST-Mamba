@@ -12,6 +12,7 @@ from einops import rearrange, repeat
 from libcity.model import loss
 
 from mamba_ssm.ops.selective_scan_interface import selective_scan_fn, mamba_inner_fn
+from mamba_ssm import Mamba as MambaSSM
 
 try:
     from causal_conv1d import causal_conv1d_fn, causal_conv1d_update
@@ -214,16 +215,15 @@ class MambaWeatherBlock(nn.Module):
 class SimpleMambaWeatherBlock(nn.Module):
     """Simple MambaWeather block with layer normalization and residual connections"""
     
-    def __init__(self, d_model=96, d_state=32, d_conv=4, expand=2, weather_embed_dim=None, dropout=0.1):
+    def __init__(self, d_model, d_state, d_conv, expand, weather_embed_dim=None, dropout=0.1):
         super().__init__()
         self.weather_embed_dim = weather_embed_dim
         self.layer_norm = nn.LayerNorm(d_model)
-        self.mamba_weather = MambaWeatherBlock(
+        self.mamba_weather = MambaSSM(
             d_model=d_model,
             d_state=d_state,
             d_conv=d_conv,
-            expand=expand,
-            weather_embed_dim=weather_embed_dim,
+            expand=expand
         )
         self.dropout = nn.Dropout(dropout)
         self.feed_forward = nn.Sequential(
@@ -235,29 +235,14 @@ class SimpleMambaWeatherBlock(nn.Module):
         self.ff_norm = nn.LayerNorm(d_model)
         self.ff_dropout = nn.Dropout(dropout)
     
-    def forward(self, x, weather_embed=None):
-        """
-        Args:
-            x: (B, L, D) - 输入序列
-            weather_embed: (B, L, D_w) - 天气嵌入，默认为None时自动创建零向量
-        """
-        # 如果 weather_embed 为 None，创建零向量作为默认值
-        if weather_embed is None:
-            batch_size, seq_len = x.shape[0], x.shape[1]
-            weather_embed = torch.zeros(
-                batch_size, seq_len, self.weather_embed_dim,
-                dtype=x.dtype,
-                device=x.device
-            )
+    def forward(self, x):
         
-        # Mamba block with residual
         residual = x
         x = self.layer_norm(x)
-        x = self.mamba_weather(x, weather_embed)
+        x = self.mamba_weather(x)
         x = self.dropout(x)
         x = x + residual
         
-        # Feed-forward with residual
         residual = x
         x = self.ff_norm(x)
         x = self.feed_forward(x)
