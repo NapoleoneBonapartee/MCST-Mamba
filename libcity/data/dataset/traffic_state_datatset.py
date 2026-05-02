@@ -312,6 +312,7 @@ class TrafficStateDataset(AbstractDataset):
             dynafile = dynafile[data_col]
         else:  # 不指定则加载所有列
             dynafile = dynafile[dynafile.columns[2:]]  # 从feature_dim第1列开始
+
         # 求时间序列
         self.timesolts = list(dynafile['time'][:int(dynafile.shape[0] / len(self.geo_ids))])
         self.idx_of_timesolts = dict()
@@ -329,12 +330,13 @@ class TrafficStateDataset(AbstractDataset):
             data.append(df[i:i + len_time].values)
         data = np.array(data, dtype=np.float64)  # (len(self.geo_ids), len_time, feature_dim)
         data = data.swapaxes(0, 1)  # (len_time, len(self.geo_ids), feature_dim)
+
         # 在特征列后增加时间步索引列
         time_indices = np.arange(len_time).reshape(len_time, 1, 1)
         time_indices = np.tile(time_indices, (1, data.shape[1], 1))
         data = np.concatenate([data, time_indices], axis=-1)  # (len_time, num_nodes, feature_dim+1)
-        self._logger.info("Loaded file " + filename + '.dyna' + ', shape=' + str(data.shape))
-        self.timestamp = True
+        
+        self._logger.info("Loaded file " + filename + '.dyna' + ', shape=' + str(data.shape) + ', 带有时间索引列')
         return data
 
     def _load_grid_3d(self, filename):
@@ -664,8 +666,7 @@ class TrafficStateDataset(AbstractDataset):
             dayofweek = []
             for day in self.timesolts.astype("datetime64[D]"):
                 dayofweek.append(datetime.datetime.strptime(str(day), '%Y-%m-%d').weekday())
-            day_in_week = np.zeros(shape=(num_samples, num_nodes, 7))
-            day_in_week[np.arange(num_samples), :, dayofweek] = 1
+            day_in_week = np.tile(np.array(dayofweek), [1, num_nodes, 1]).transpose((2, 1, 0))
             data_list.append(day_in_week)
         # 外部数据集
         if ext_data is not None:

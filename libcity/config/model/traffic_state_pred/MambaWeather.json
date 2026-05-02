@@ -12,7 +12,7 @@
     "input_window": 12,
     "output_window": 12,
     "early_stop": true,
-    "patience": 15,
+    "patience": 20,
     "weight_decay": 0.0001,
     "input_embedding_dim": 24,
     "tod_embedding_dim": 24,
@@ -22,5 +22,13 @@
     "add_time_in_day": true,
     "add_day_in_week": true,
     "steps_per_day": 288,
-    "dropout": 0.1
+    "dropout": 0.1,
+
+    "use_weather": true,
+    "timestamp": true,
+    "weather_embed_dim": 32,
+    "load_external": true,
+    "scaler": "stantard"
+
+
 }

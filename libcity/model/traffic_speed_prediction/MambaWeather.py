@@ -70,12 +70,6 @@ class WeatherProcessor:
         if 'RHAV' in df.columns:
             # 湿度等级（低、中、高）
             derived_features['humidity_level'] = pd.cut(df['RHAV'], bins=[0, 30, 60, 100], labels=[0, 1, 2]).astype(float)
-            # 湿度变化率（一阶差分）
-            derived_features['humidity_change'] = df['RHAV'].diff().fillna(0)
-        
-        if 'RHMX' in df.columns and 'RHMN' in df.columns:
-            # 湿度范围
-            derived_features['humidity_range'] = df['RHMX'] - df['RHMN']
         
         # 3. 风速相关特征
         if 'WSF2' in df.columns and 'WSF5' in df.columns:
@@ -84,31 +78,19 @@ class WeatherProcessor:
             # 平均风速
             derived_features['wind_avg'] = (df['WSF2'] + df['WSF5']) / 2
         
-        if 'AWND' in df.columns:
-            derived_features['wind_speed'] = df['AWND']
-        
         # 4. 气压相关特征
         if 'ADPT' in df.columns and 'ASTP' in df.columns:
             # 站压与海平面气压差
             derived_features['pressure_diff'] = df['ASTP'] - df['ADPT']
         
         if 'ASLP' in df.columns:
-            # 气压变化率
-            derived_features['pressure_change'] = df['ASLP'].diff().fillna(0)
             # 气压等级（用于判断天气稳定性）
             derived_features['pressure_level'] = pd.cut(df['ASLP'], bins=[0, 1010, 1020, 1100], labels=[0, 1, 2]).astype(float)
         
         # 5. 降水相关特征
         if 'PRCP' in df.columns:
-            # 是否有降水
-            derived_features['has_precipitation'] = (df['PRCP'] > 0).astype(float)
             # 降水强度等级
             derived_features['precipitation_level'] = pd.cut(df['PRCP'], bins=[-0.1, 0, 2.5, 10, 1000], labels=[0, 1, 2, 3]).astype(float)
-        
-        # 6. 风向特征（转换为正弦/余弦编码）
-        if 'WDF2' in df.columns:
-            derived_features['wind_dir_sin'] = np.sin(np.radians(df['WDF2']))
-            derived_features['wind_dir_cos'] = np.cos(np.radians(df['WDF2']))
         
         # 7. 天气现象特征（WT系列）
         wt_cols = [col for col in df.columns if col.startswith('WT')]
@@ -215,7 +197,7 @@ class SimpleMambaBlock(nn.Module):
         return x
 
 
-class MCSTMamba(AbstractTrafficStateModel):
+class MambaWeather(AbstractTrafficStateModel):
     def __init__(self, config, data_feature):
         super().__init__(config, data_feature)
 
@@ -227,15 +209,6 @@ class MCSTMamba(AbstractTrafficStateModel):
         self.num_nodes = self.data_feature.get('num_nodes', 1)
         self.feature_dim = self.data_feature.get('feature_dim', 1)
         self.output_dim = self.data_feature.get('output_dim', 1)
-
-        # 时间相关特征（从dataset传入）
-        self.start_time = self.data_feature.get('start_time', None)
-        self.total_time_steps = self.data_feature.get('total_time_steps', None)
-        self.time_intervals = self.config.get('time_intervals', 300)
-        self.has_time_column = self.start_time is not None and self.total_time_steps is not None
-        if self.has_time_column:
-            # 输入特征中最后一列为时间步索引，需要去掉后再投影
-            self.feature_dim = self.feature_dim - 1
 
         # 获取模型配置
         self.input_window = config.get('input_window', 12)
@@ -255,11 +228,30 @@ class MCSTMamba(AbstractTrafficStateModel):
         self.spatial_embedding_dim = config.get('spatial_embedding_dim', 16)
         self.adaptive_embedding_dim = config.get('adaptive_embedding_dim', 80)
 
+        # 从配置中获取Mamba特定参数
+        self.d_model = config.get('d_model', 96)
+        self.d_state = config.get('d_state', 32)
+        self.d_conv = config.get('d_conv', 4)
+        self.expand = config.get('expand', 2)
+        self.dropout = config.get('dropout', 0.1)
+
+        # 时间相关特征（从dataset传入）
+        self.start_time = self.data_feature.get('start_time', None)
+        self.total_time_steps = self.data_feature.get('total_time_steps', None)
+        self.time_intervals = self.config.get('time_intervals', 300)
+        self.has_time_column = self.start_time is not None and self.total_time_steps is not None
+        if self.has_time_column:
+            # 输入特征中最后一列为时间步索引，需要去掉后再投影
+            self.feature_dim = self.feature_dim - 3
+        else:
+            self.feature_dim = self.feature_dim - 2
+
         # 天气相关配置
         self.weather_embed_dim = config.get('weather_embed_dim', 64)
         self.weather_file = config.get('weather_file', None)  # 天气文件路径
-        self.use_weather = config.get('use_weather', True)
+        self.use_weather = config.get('use_weather', False)
 
+        # 创建天气处理器
         self.weather_processor = None
         if self.use_weather:
             self._setup_weather_processor()
@@ -267,11 +259,13 @@ class MCSTMamba(AbstractTrafficStateModel):
         # 天气特征嵌入层
         if self.use_weather and self.weather_processor is not None:
             self.weather_feature_proj = nn.Sequential(
-                nn.Linear(self.weather_processor.num_weather_features, self.weather_embed_dim * 2),
+                nn.Linear(self.weather_processor.num_weather_features, self.weather_embed_dim),
                 nn.ReLU(),
-                nn.Dropout(self.dropout),
-                nn.Linear(self.weather_embed_dim * 2, self.weather_embed_dim)
+                nn.Dropout(self.dropout)
             )
+            # Step 2：时序/空间入口调制——天气分别调制时序和空间输入
+            self.weather_to_temporal = nn.Linear(self.weather_embed_dim, self.d_model)
+            self.weather_to_spatial = nn.Linear(self.weather_embed_dim, self.d_model)
         
         # 计算模型维度（总嵌入大小）
         self.model_dim = (
@@ -281,6 +275,8 @@ class MCSTMamba(AbstractTrafficStateModel):
             self.spatial_embedding_dim +
             self.adaptive_embedding_dim
         )
+        if self.use_weather:
+            self.model_dim += self.weather_embed_dim
         
         # 创建嵌入层
         self.input_proj = nn.Linear(self.feature_dim, self.input_embedding_dim)
@@ -300,13 +296,6 @@ class MCSTMamba(AbstractTrafficStateModel):
                 torch.empty(self.input_window, self.num_nodes, self.adaptive_embedding_dim)
             )
             nn.init.xavier_uniform_(self.adaptive_embedding)
-        
-        # 从配置中获取Mamba特定参数
-        self.d_model = config.get('d_model', 96)
-        self.d_state = config.get('d_state', 32)
-        self.d_conv = config.get('d_conv', 4)
-        self.expand = config.get('expand', 2)
-        self.dropout = config.get('dropout', 0.1)
         
         # 输入投影到Mamba维度
         self.mamba_input_proj = nn.Linear(self.model_dim, self.d_model)
@@ -390,7 +379,7 @@ class MCSTMamba(AbstractTrafficStateModel):
             return None
         
         # 取出最后一个特征列（时间步索引），取第一个节点即可（所有节点相同）
-        time_indices = x[:, :, 0, -1].detach().cpu().numpy()  # (B, input_window)
+        time_indices = x[:, :, 0, -3].detach().cpu().numpy()  # (B, input_window)
         
         # 如果有外部归一化器，对时间步索引进行反归一化
         ext_scaler = self.data_feature.get('ext_scaler', None)
@@ -425,14 +414,8 @@ class MCSTMamba(AbstractTrafficStateModel):
             # 返回零向量
             return torch.zeros(batch_size, self.input_window, self.num_nodes, self.weather_embed_dim, device=self.device)
         
-        # 如果没有提供timestamps，生成默认时间序列（基于input_window）
         if timestamps is None:
-            # 生成虚拟时间戳（这里简化处理，实际应从batch中获取）
-            # 使用时间索引作为替代
-            time_indices = torch.arange(self.input_window, device=self.device)
-            # 将索引转换为实际时间戳（假设5分钟间隔）
-            base_time = pd.Timestamp('2012-03-01')  # METR_LA默认起始时间
-            timestamps = [base_time + pd.Timedelta(minutes=int(i * 5)) for i in time_indices.cpu().numpy()]
+            print("缺少时间序列timestamps")
         
         # 获取天气特征
         weather_features = self.weather_processor.get_features_at_timestamps(timestamps)
@@ -452,14 +435,6 @@ class MCSTMamba(AbstractTrafficStateModel):
                              f"({self.input_window}, {self.weather_embed_dim})")
         weather_embed = weather_embed.unsqueeze(2).expand(-1, -1, self.num_nodes, -1)  # (B, L, N, D_w)
         
-        # 空间扩展（为每个节点学习不同的天气影响）
-        B, L, N, D = weather_embed.shape
-        weather_embed = weather_embed.reshape(B * L * N, D)
-        
-        #不一定有用，可以通过实验验证效果。
-        weather_embed = self.weather_spatial_expand(weather_embed)
-        weather_embed = weather_embed.reshape(B, L, N, -1)
-        
         return weather_embed
 
 
@@ -470,6 +445,16 @@ class MCSTMamba(AbstractTrafficStateModel):
         
         # 特征提取
         features = []
+
+        # 从x中提取时间戳（最后一列为时间步索引）
+        if self.use_weather:
+            timestamps = self._extract_timestamps_from_x(x)
+            temp = x[...,-3:]
+            x = x[...,:-3]
+        else:
+            temp = x[...,-2:]
+            x = x[...,:-2]
+            
         
         # 处理主要特征
         x_main = self.input_proj(x)  # [batch_size, input_window, num_nodes, input_embedding_dim]
@@ -477,27 +462,13 @@ class MCSTMamba(AbstractTrafficStateModel):
         
         # 如需要，添加时间嵌入
         if self.add_time_in_day:
-            # 基于序列位置创建归一化的一天中的时间（0-1）
-            # 这适用于任何数据集，无论特征维度如何
-            tod = torch.linspace(0, 0.99, self.input_window, device=self.device)
-            # 重塑为 [1, input_window, 1] 并扩展为 [batch_size, input_window, num_nodes]
-            tod = tod.reshape(1, -1, 1).expand(batch_size, -1, self.num_nodes)
-            
-            # 转换为索引，与原始实现完全相同
-            tod_indices = (tod * self.steps_per_day).long()
-            tod_indices = torch.clamp(tod_indices, 0, self.steps_per_day - 1)
+            tod_indices = temp[..., -2].long()
             tod_emb = self.tod_embedding(tod_indices)  # [batch_size, input_window, num_nodes, tod_embedding_dim]
             features.append(tod_emb)
             
         if self.add_day_in_week:
             # 基于序列位置创建一周中的天（0-6）
-            dow = torch.arange(0, self.input_window, device=self.device) % 7
-            # 重塑为 [1, input_window, 1] 并扩展为 [batch_size, input_window, num_nodes]
-            dow = dow.reshape(1, -1, 1).expand(batch_size, -1, self.num_nodes)
-            
-            # 转换为索引
-            dow_indices = dow.long()
-            dow_indices = torch.clamp(dow_indices, 0, 6)  # 限制在0-6范围内表示一周的天数
+            dow_indices = temp[..., -1].long()
             dow_emb = self.dow_embedding(dow_indices)  # [batch_size, input_window, num_nodes, dow_embedding_dim]
             features.append(dow_emb)
         
@@ -511,6 +482,10 @@ class MCSTMamba(AbstractTrafficStateModel):
             adp_emb = self.adaptive_embedding.unsqueeze(0)  # [1, input_window, num_nodes, adaptive_dim]
             adp_emb = adp_emb.expand(batch_size, -1, -1, -1)
             features.append(adp_emb)
+
+        if self.use_weather:
+            weather_embed = self._get_weather_embedding(batch_size, timestamps)
+            features.append(weather_embed)
         
         # 连接所有特征
         x = torch.cat(features, dim=-1)  # [batch_size, input_window, num_nodes, model_dim]
@@ -518,8 +493,22 @@ class MCSTMamba(AbstractTrafficStateModel):
         # 投影到Mamba维度
         x = self.mamba_input_proj(x)  # [batch_size, input_window, num_nodes, d_model]
         
+        # ==================== Step 2：双路入口调制 ====================
+        if self.use_weather:
+            # 为时序和空间分别生成调制偏置
+            w_t = self.weather_to_temporal(weather_embed)  # (B, L, N, d_model)
+            w_s = self.weather_to_spatial(weather_embed)   # (B, L, N, d_model)
+            
+            # 加法注入：让天气影响"如何看待输入"，但不替换输入
+            x_for_temporal = x + w_t
+            x_for_spatial = x + w_s
+        else:
+            x_for_temporal = x
+            x_for_spatial = x
+        # =============================================================
+        
         # 时间处理（独立处理每个节点）
-        x_temporal = x.permute(2, 0, 1, 3)  # [num_nodes, batch_size, input_window, d_model]
+        x_temporal = x_for_temporal.permute(2, 0, 1, 3)  # [num_nodes, batch_size, input_window, d_model]
         x_temporal = x_temporal.reshape(self.num_nodes, batch_size * self.input_window, -1)
         
         # 通过时间块处理
@@ -540,7 +529,7 @@ class MCSTMamba(AbstractTrafficStateModel):
             # 处理每个时间步
             for t in range(self.input_window):
                 # 对于每个时间步，将节点视为序列: [batch_size, num_nodes, d_model]
-                nodes_seq = x[:, t, :, :]
+                nodes_seq = x_for_spatial[:, t, :, :]
                 
                 # 计算有效批次大小
                 effective_batch_size = 1
@@ -565,7 +554,7 @@ class MCSTMamba(AbstractTrafficStateModel):
                 x_spatial[t] = torch.cat(all_results, dim=0)
         else:
             # 对于较小的数据集，一次性处理所有数据
-            x_spatial = x.permute(1, 0, 2, 3)  # [input_window, batch_size, num_nodes, d_model]
+            x_spatial = x_for_spatial.permute(1, 0, 2, 3)  # [input_window, batch_size, num_nodes, d_model]
             x_spatial = x_spatial.reshape(self.input_window, batch_size * self.num_nodes, -1)
             
             # 通过空间块处理

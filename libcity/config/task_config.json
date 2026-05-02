@@ -181,9 +181,7 @@
             "ASTGNNCommon",
             "FreTS",
             "Mamba",
-            "MCSTMamba",
-            "SimpleMamba",
-            "OnlyMamba",
+            "MambaWeather",
             "MCSTMamba"
         ],
         "allowed_dataset": [
@@ -233,21 +231,6 @@
             "evaluator": "TrafficStateEvaluator"
         },
         "STGCN": {
-            "dataset_class": "TrafficStatePointDataset",
-            "executor": "TrafficStateExecutorOptimized",
-            "evaluator": "TrafficStateEvaluator"
-        },
-        "GWNET": {
-            "dataset_class": "TrafficStatePointDataset",
-            "executor": "TrafficStateExecutorOptimized",
-            "evaluator": "TrafficStateEvaluator"
-        },        
-        "OnlyMamba": {
-            "dataset_class": "TrafficStatePointDataset",
-            "executor": "TrafficStateExecutorOptimized",
-            "evaluator": "TrafficStateEvaluator"
-        },
-        "SimpleMamba": {
             "dataset_class": "TrafficStatePointDataset",
             "executor": "TrafficStateExecutorOptimized",
             "evaluator": "TrafficStateEvaluator"
